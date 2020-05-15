@@ -1,29 +1,9 @@
 ---
-title: "An Assessment of FGCU's Learning Assistant Program"
-author: "Blake Gilliland, Advised by Dr. Galen Papkov"
-indent: true
-landscape geometry: "left=0.4in,right=0.4in,top=0.3in,bottom=0.8in,headheight=1.5cm,includehead" 
-waterbody: NA
-header-includes:
-  - \usepackage{xcolor,colortbl}
-  - \usepackage{longtable}
-  - \usepackage{amssymb}
-  - \usepackage{indentfirst}
-  - \usepackage{setspace}\doublespacing
-  - \usepackage{graphicx}
-  - \usepackage{array}
-  - \usepackage{booktabs}
-  - \usepackage{multirow}
-  - \usepackage{pdflscape}
-  - \usepackage{float}
-  - \usepackage{tabu}
-  - \usepackage{threeparttable}
-  - \newcommand*\conj[1]{\bar{#1}}
-  - \newcommand*\mean[1]{\bar{#1}}
-output: 
-  pdf_document:
-    keep_md: true
-bibliography: ref.bib
+title: "LA Assesment"
+date: 2020-05-15
+tags: [R, Data Analysis, Statistical Analysis]
+excerpt: "A Statistical Analysis of the Learning Assistant Program"
+mathjax: "true"
 ---
 
 
