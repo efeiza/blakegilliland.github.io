@@ -33,7 +33,7 @@ FGCU’s Learning Assistant program began in 2016 and spanned a wide range of ST
 ## Background  
 The Learning Assistant (LA) model is a relatively new concept. It began at the University of Colorado at Boulder in 2003 and has spread to over 200 universities around the United States due to the success they had. The most familiar role that one may compare an LA to is a Teacher's Assistant (TA) or an Instructional Assistant (IA). LA's are talented undergraduates who have recently taken a course and remember what it is like to learn the material. However, there are significant differences between them and TA's or IA's that allows them to be in a category of their own. They help transform undergraduate courses to include small groups of students articulating, defending, and modifying their ideas about relevant problems or phenomena. Their main role is to support student learning in interactive classroom environments, working with small groups of students as they solve challenging conceptual or mathematical problems. They are required to take a pedagogy course during their first semester as an LA so they can develop their skills and theoretical understanding of effective teaching techniques. \cite{UC_LA} \cite{cochran}
 
-![The LA model varies significantly from a traditional classroom.](/Users/blakegilliland/Documents/GitHub/LA_Assesment/TAvLA.png)  
+![The LA model varies significantly from a traditional classroom.](images/TAvLA.png)  
 
 There has been research conducted on what the impact of LA's are in the classroom. Using Learning Assistant Supported Student Outcomes (LASSO), a web-based learning gains assessment application that provides validated instruments accross a range of disciplines, researchers have been able to conduct statistical analysis on specific ways that having an LA model can affect student performance accross various courses.  
 
@@ -135,7 +135,7 @@ Our hypothesis is that the data is normal and thus a significant p-value would i
 ## W = 0.97381, p-value = 0.8655
 ```
 
-![](LA_Paper_files/figure-latex/unnamed-chunk-2-1.pdf)<!-- --> 
+![](images/unnamed-chunk-2-1.pdf)<!-- --> 
 
 Since we have a p-value of p = .8655, we fail to reject our hypothesis and thus we have evidence to conclude the difference between DFW rates for courses with and without LA's does follow an approximately normal distribution.
 
@@ -161,7 +161,7 @@ We observe a test statistic of  t = .8984 and an associated p-value of p = .8092
 For LA courses to have significantly lower DFW rates, the density would need to be shifted considerably leftward. As is, our distributions are remarkably similar in shape and location.$\\$
 
 
-![](LA_Paper_files/figure-latex/unnamed-chunk-4-1.pdf)<!-- --> 
+![](images/unnamed-chunk-4-1.pdf)<!-- --> 
 
 As can be seen in the density plot above, the distribution of DFW rates for both groups are very similar. For LA's to be seen as more effective, the respective density would need a significant leftward shift.
 
@@ -237,7 +237,7 @@ Again, we do not have enough data to assume using parametric tests would be appr
 ## W = 0.63002, p-value = 4.869e-05
 ```
 
-![](LA_Paper_files/figure-latex/unnamed-chunk-7-1.pdf)<!-- --> 
+![](images/unnamed-chunk-7-1.pdf)<!-- --> 
 
 Our p-value, which is nearly 0, is less than $\alpha = .05$ thus we may conclude that the differences between DFW rates controlled by instructor is not approximately normally distributed. As a result, we will use a nonparametric test to test for differences. 
 
@@ -255,7 +255,7 @@ A left-tailed, two-sample, and paired Wilcoxon Signed-Rank test will be used to 
 
 With a p-value of p=.6225, we fail to reject our hypothesis that the differences between DFW rates between courses controlled by instructor with/without LA's is in the favor of LA courses. $\\$
 
-![](LA_Paper_files/figure-latex/unnamed-chunk-9-1.pdf)<!-- --> 
+![](images/unnamed-chunk-9-1.pdf)<!-- --> 
 
 
 ## Conclusions, Interpretations, & Considerations
