@@ -85,7 +85,7 @@ analytics:
 # Site Author
 author:
   name             : "Blake Gilliland"
-  avatar           : "/images/IMG_0777.png" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : "/images/ProAvatar.jpeg" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "Data Science Portfolio"
   location         : "Greater Chicago Area, IL"
   email            :
