@@ -169,7 +169,7 @@ hist(tab3$`DFW Rate`[tab3$LA=="Yes"]-tab3$`DFW Rate`[tab3$LA=="No"],xlab = "Diff
 
 <!-- ![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA_Paper_files/figure-gfm/unnamed-chunk-2-1.png) -->   
 
-As can be seen not only by the result of our test, but also the shape of the data, the data certainly is approximately normal and thus we may perform parametric tests, specifically a two-sample, left-tailed, paired t-test (\(\alpha = .05\)).
+As can be seen not only by the result of our test, but also the shape of the data, the data certainly is approximately normal and thus we may perform parametric tests, specifically a two-sample, left-tailed, paired t-test (\($$\alpha = .05$$\)).
 
 ```r
 t.test(LA_DFW,NonLA_DFW,paired=TRUE,alternative="less") # Perform test for differences
@@ -196,7 +196,7 @@ legend(x=.5,y=3.5,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1) # Format d
 
 <!-- ![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA-analysis_files/figure-gfm/unnamed-chunk-5-1.png) -->
 
-We get a test statistic of t = 0.938 and a p-value that is much greater than our set \(\alpha = .05\) level. Since our statistic is >0, this indicates that the average DFW rate accross courses actually goes up when LA's are present.
+We get a test statistic of t = 0.938 and a p-value that is much greater than our set \(\$$alpha = .05$$\) level. Since our statistic is >0, this indicates that the average DFW rate accross courses actually goes up when LA's are present.
 
 ### Wilcoxon Signed-Rank Test for DFW Rate, pairing by Course. Looking for an LA Effect.
 
@@ -269,7 +269,7 @@ hist(LA_DFW - NonLA_DFW,xlab = "Difference between DFW Rates by Instructor",main
 
 <!-- ![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA-analysis_files/figure-gfm/unnamed-chunk-7-1.png) -->
 
-Our p-value is approx. 0 and thus we reject the shape of the data being normal. As a result, we may not use parametric tests and we will revert to the nonparametric equivalent of the two-sample, left tailed, paired t-test: the Wilcoxon Signed-Rank Test \(\alpha = .05\).
+Our p-value is approx. 0 and thus we reject the shape of the data being normal. As a result, we may not use parametric tests and we will revert to the nonparametric equivalent of the two-sample, left tailed, paired t-test: the Wilcoxon Signed-Rank Test \(\$$alpha = .05$$\).
 
 ```r
 wilcox.test(LA_DFW,NonLA_DFW,alternative = "less",paired = T) # Perform nonparametric test
