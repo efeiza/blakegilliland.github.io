@@ -1,42 +1,62 @@
 ---
-title: "LA Analysis"
+title: " An Assessment of FGCU's Learning Assistant Program"
 date: 2020-05-16
 tags: [R, ggplot2]
 excerpt: "Statistical Analysis of Learning Assistants"
 mathjax: "true"
 ---
 
+### Background
+
+Learning Assistants (LA's) are talented undergraduates who have recently taken a course and remember what it is like to learn the material. They help transform undergraduate courses to include small groups of students articulating, defending, and modifying their ideas about relevant problems or phenomena. Their main role is to support student learning in interactive classroom environments, working with small groups of students as they solve challenging conceptual or mathematical problems.
+
+FGCU’s Learning Assistant program began in 2016 and spanned a wide range of STEM disciplines. In the last year, it has expanded to non-STEM classes as well. We are interested in measuring the effectiveness of the program and determining methods of improvement for the future based on DFW rates.
 
 
+### Analysis
 
+How can we get a grasp on how to quantify LA impact on student performance? Let's consider our data. We have data from Fall 2016 through Spring 2019 on a by-semester, and by-section granularity level.
 
+```r
+library(tidyverse)
+library(dplyr)
+library(xtable)
+library(ggplot2)
+library(knitr)
 
+dat = read.csv("LA_DFW_Data.csv")[,1:14]
+dat$DFW = dat$DF.Number+dat$W.Number
+dat = dat[-1,c(1,4,5,6,7,8,10,12,15)]
+attach(dat)
+head(dat)
+```
 
+    ##     Course                  Course.Name      Term  LA   CRN Avg..DFW.RATE
+    ## 1 EVR1001C Intro. Environmental Science Fall 2018  No 82604          0.07
+    ## 2 EVR1001C Intro. Environmental Science Fall 2018  No 82605          0.10
+    ## 3 EVR1001C Intro. Environmental Science Fall 2018  No 83202          0.08
+    ## 4 EVR1001C Intro. Environmental Science Fall 2018 Yes 83350          0.08
+    ## 5 COP2006   Introduction to Programming Fall 2016 Yes 80599          0.04
+    ## 6 COP2006   Introduction to Programming Fall 2016  No 80600          0.09
+    ##   Students DFW
+    ## 1       72   5
+    ## 2       69   7
+    ## 3       75   6
+    ## 4       38   3
+    ## 5       24   1
+    ## 6       32   3
 
+As you can see by the head of our .csv, we know what subject the section was (columns 1 and 2), what term it was taught in, whether there was a LA or not, which section (CRN) it was (and therefore who taught it), what the DFW (D/F/Withdraw) rate was for that section, how many students were in it, and the DFW count, respectively.
 
+```r
+tab1 = aggregate(DFW,list(LA,Course.Name),sum)
+tab2 = aggregate(Students,list(LA,Course.Name),sum)
+tab3 = cbind(tab1,round(tab1[,3]/tab2[,3],2))
+colnames(tab3) = c("LA","Course","DFW Count","DFW Rate")
+kable(tab3)
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Exploratory Data Analysis
-
-| LA  | Course                       | DFW.Count | DFW.Rate |
+| LA  | Course                       | DFW Count | DFW Rate |
 | :-- | :--------------------------- | --------: | -------: |
 | No  | Calculus I                   |       124 |     0.33 |
 | Yes | Calculus I                   |        39 |     0.28 |
@@ -64,7 +84,7 @@ mathjax: "true"
 | Yes | Intro Earth Science          |        22 |     0.16 |
 | No  | Intro to Computer Science    |        36 |     0.22 |
 | Yes | Intro to Computer Science    |        31 |     0.17 |
-| No  | Intro. Environmental Science |        13 |     0.09 |
+| No  | Intro. Environmental Science |        18 |     0.08 |
 | Yes | Intro. Environmental Science |         3 |     0.08 |
 | No  | Introduction to Programming  |         6 |     0.12 |
 | Yes | Introduction to Programming  |        21 |     0.13 |
@@ -75,58 +95,124 @@ mathjax: "true"
 | No  | Statistical Methods          |       674 |     0.25 |
 | Yes | Statistical Methods          |        23 |     0.21 |
 
-## Paired T-test for DFW Rate, pairing by Course. Looking for an LA Effect.
+### Check Normality before Applying Parametric Test
+```r
+shapiro.test(tab3$`DFW Rate`[tab3$LA=="Yes"]-tab3$`DFW Rate`[tab3$LA=="No"])
 
+hist(tab3$`DFW Rate`[tab3$LA=="Yes"]-tab3$`DFW Rate`[tab3$LA=="No"],xlab = "Difference between DFW Rates by Course",main=paste("Histogram of the differences between \nDFW Rates by Courses with/without LA's"))
+```
+    ## 
+    ##  Shapiro-Wilk normality test
+    ## 
+    ## data:  tab3$`DFW Rate`[tab3$LA == "Yes"] - tab3$`DFW Rate`[tab3$LA ==     "No"]
+    ## W = 0.97282, p-value = 0.8487
+    
+![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA_Paper_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->    
+
+### Paired T-test for DFW Rate, pairing by Course. Looking for an LA Effect.
+
+```r
+LA_DFW<-tab3$`DFW Rate`[tab3$LA=="Yes"]
+NonLA_DFW<-tab3$`DFW Rate`[tab3$LA=="No"]
+t.test(LA_DFW,NonLA_DFW,paired=TRUE,alternative="less")
+
+plot(density(tab3$DFW.Rate[tab3$LA=="No"]),xlim=c(0,.7),main = "Distribution of DFW Rates for Courses with LA's or without LA's",xlab = "DFW Rate")
+lines(density(tab3$DFW.Rate[tab3$LA=="Yes"]),col="red")
+legend(x=.5,y=3.5,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1)
+```
     ## 
     ##  Paired t-test
     ## 
     ## data:  LA_DFW and NonLA_DFW
-    ## t = 0.8984, df = 17, p-value = 0.1908
-    ## alternative hypothesis: true difference in means is greater than 0
+    ## t = 0.93843, df = 17, p-value = 0.8194
+    ## alternative hypothesis: true difference in means is less than 0
     ## 95 percent confidence interval:
-    ##  -0.01248453         Inf
+    ##        -Inf 0.03963536
     ## sample estimates:
     ## mean of the differences 
-    ##              0.01333333
+    ##              0.01388889
 
-![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA-analysis_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA-analysis_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
-    ## The following objects are masked from dat:
-    ## 
-    ##     Avg..DF.RATE, Avg..DFW.RATE, Avg..W.RATE, Course, Course.Name, CRN,
-    ##     DF.Number, DFW, DFW.Cate, Historical.DFW, LA, Students, Term,
-    ##     W.Number
+```r
+dat1 = read.csv("PairedData.csv")[,4:15]
+dat1$DFW = dat1$DF.Number+dat1$W.Number
+attach(dat1)
+
+tab1 = aggregate(DFW,list(LA,Instructors),sum)
+tab2 = aggregate(Students,list(LA,Instructors),sum)
+tab3 = cbind(tab1,round(tab1[,3]/tab2[,3],2))
+colnames(tab3) = c("LA","Instructors","DFW Count","DFW Rate")
+kable(tab3)
+```
+| LA  | Instructors | DFW Count | DFW Rate |
+| :-- | ----------: | --------: | -------: |
+| No  |           1 |        25 |     0.32 |
+| Yes |           1 |        27 |     0.36 |
+| No  |           2 |        19 |     0.26 |
+| Yes |           2 |        21 |     0.30 |
+| No  |           3 |        25 |     0.17 |
+| Yes |           3 |        42 |     0.29 |
+| No  |           4 |         2 |     0.06 |
+| Yes |           4 |         3 |     0.09 |
+| No  |           5 |        13 |     0.23 |
+| Yes |           5 |        13 |     0.23 |
+| No  |           6 |        29 |     0.33 |
+| Yes |           6 |        25 |     0.28 |
+| No  |           7 |        20 |     0.56 |
+| Yes |           7 |        11 |     0.16 |
+| No  |           8 |        42 |     0.49 |
+| Yes |           8 |        45 |     0.48 |
+| No  |           9 |         6 |     0.08 |
+| Yes |           9 |         3 |     0.08 |
+| No  |          10 |         5 |     0.16 |
+| Yes |          10 |         5 |     0.16 |
+| No  |          11 |        29 |     0.54 |
+| Yes |          11 |        50 |     0.47 |
+| No  |          12 |         5 |     0.16 |
+| Yes |          12 |         5 |     0.16 |
+| No  |          13 |        45 |     0.48 |
+| Yes |          13 |        45 |     0.49 |
+| No  |          14 |         6 |     0.19 |
+| Yes |          14 |        14 |     0.20 |
+| No  |          15 |        14 |     0.16 |
+| Yes |          15 |        10 |     0.19 |
+
+```r
+shapiro.test(tab3$`DFW Rate`[tab3 == "Yes"]-tab3$`DFW Rate`[tab3$LA == "No"])
+
+hist(tab3$`DFW Rate`[tab3$LA == "No"],xlab = "Difference between DFW Rates by Instructor",main=paste("Histogram of the differences between \nDFW Rates by Instructors with/without LA's"))
+```
 
     ## 
     ##  Shapiro-Wilk normality test
     ## 
-    ## data:  pair_dat$Avg..DFW.RATE
-    ## W = 0.90929, p-value = 0.01428
+    ## data:  tab3$`DFW Rate`[tab3 == "Yes"] - tab3$`DFW Rate`[tab3$LA == "No"]
+    ## W = 0.63002, p-value = 4.869e-05
 
-    ## 
-    ##  Shapiro-Wilk normality test
-    ## 
-    ## data:  pair_dat$Avg..DFW.RATE[pair_dat$LA == "Yes"]
-    ## W = 0.91312, p-value = 0.1512
+![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA_Paper_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
-    ## 
-    ##  Shapiro-Wilk normality test
-    ## 
-    ## data:  pair_dat$Avg..DFW.RATE[pair_dat$LA == "No"]
-    ## W = 0.899, p-value = 0.0919
+
+```r
+LA_DFW<-tab3$`DFW Rate`[tab3 == "Yes"]
+NonLA_DFW<-tab3$`DFW Rate`[tab3$LA == "No"]
+wilcox.test(LA_DFW,NonLA_DFW,alternative = "less",paired = T)
+
+plot(density(Instruct_LA),xlim=c(0,.7),main = paste("Distribution of DFW Rates for Instructors \n that Taught Sections with LA's or without LA's"),xlab = "DFW Rate")
+lines(density(Instruct_No_LA),col="red")
+legend(x=.5,y=2.5,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1)
+```
 
     ## 
     ##  Wilcoxon signed rank test with continuity correction
     ## 
-    ## data:  Instruct_LA and Instruct_No_LA
-    ## V = 36, p-value = 0.4118
-    ## alternative hypothesis: true location shift is greater than 0
+    ## data:  LA_DFW and NonLA_DFW
+    ## V = 36, p-value = 0.6225
+    ## alternative hypothesis: true location shift is less than 0
+    
+![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA_Paper_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
-![](images/LA-analysis_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
-
-![](images/LA-analysis_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
-
-![](images/LA-analysis_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA-analysis_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
     ##     Group.1     Group.2          x
     ## 1  BSC1010C   Fall 2016 0.35571429
