@@ -13,7 +13,7 @@ Learning Assistants (LA's) are talented undergraduates who have recently taken a
 FGCU’s Learning Assistant program began in 2016 and spanned a wide range of STEM disciplines. In the last year, it has expanded to non-STEM classes as well. We are interested in measuring the effectiveness of the program and determining methods of improvement for the future based on DFW rates.
 
 
-### Analysis
+## Analysis
 
 How can we get a grasp on how to quantify LA impact on student performance? Let's consider our data. We have data from Fall 2016 through Spring 2019 on a by-semester, and by-section granularity level.
 
@@ -24,9 +24,9 @@ library(xtable)
 library(ggplot2)
 library(knitr)
 
-dat = read.csv("LA_DFW_Data.csv")[,1:14]
-dat$DFW = dat$DF.Number+dat$W.Number
-dat = dat[-1,c(1,4,5,6,7,8,10,12,15)]
+dat = read.csv("LA_DFW_Data.csv")[,1:14] # Import CSV
+dat$DFW = dat$DF.Number+dat$W.Number # Create new column for total DFW counts
+dat = dat[,c(1,4,5,6,7,8,10,12,15)] # Filter columns by ones relevant to our analysis
 attach(dat)
 head(dat)
 ```
@@ -48,12 +48,66 @@ head(dat)
 
 As you can see by the head of our .csv, we know what subject the section was (columns 1 and 2), what term it was taught in, whether there was a LA or not, which section (CRN) it was (and therefore who taught it), what the DFW (D/F/Withdraw) rate was for that section, how many students were in it, and the DFW count, respectively.
 
+### Paired T-test for DFW Rate, pairing by Section. Looking for an LA Effect.
+
+We begin at the top-most and most granular level: comparaing sections without respect to instructor, term, or course. Simply, do LA's lower DFW Rates? We have plenty of data (51 sections with an LA, 239 sections without an LA) so we may proceed with parametric testing. Welch's Two-Sample, left-tailed t-test is appropriate, as determined by R automatically, since the sample sizes are unequal by a significant margin.
+
+Let's also take a look at the histogram for their differences, just to confirm it is approximately normally distributed, as well as the desnity plot of the two cases to get a sense of how the distribution of DFW rates compare between LA and Non-LA sections. 
+
 ```r
-tab1 = aggregate(DFW,list(LA,Course.Name),sum)
-tab2 = aggregate(Students,list(LA,Course.Name),sum)
-tab3 = cbind(tab1,round(tab1[,3]/tab2[,3],2))
-colnames(tab3) = c("LA","Course","DFW Count","DFW Rate")
-kable(tab3)
+LA_DFW<-dat$Avg..DFW.RATE[dat$LA=="Yes"] # Get DFW Rates for sections where an LA is present
+
+NonLA_DFW<-dat$Avg..DFW.RATE[dat$LA=="No"] # Get DFW Rates for sections where an LA is not present
+
+hist(LA_DFW-NonLA_DFW, xlab = "Difference between DFW Rates Accross Sections",main=paste("Histogram of the \nDifference between DFW Rates Accross Sections"))# Get histogram for differences in DFW rates 
+
+t.test(LA_DFW,NonLA_DFW,alternative="less") # perform test for differences
+
+
+plot(density(dat$Avg..DFW.RATE[dat$LA=="Yes"]),xlim=c(0,.7),ylim=c(0,3.5),main = paste("Distribution of DFW Rates Across Sections \n with LA's or without LA's"),xlab = "DFW Rate") # Plot density for when an LA is present accross sections
+
+lines(density(dat$Avg..DFW.RATE[dat$LA=="No"]),col="red") # Superimpose density on existing density but for when an LA is not present accross sections
+
+legend(x=.5,y=3,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1) #Format curves and legends
+```
+
+    ## 
+    ##  Welch Two Sample t-test
+    ## 
+    ## data:  LA_DFW and NonLA_DFW
+    ## t = -0.38902, df = 70.485, p-value = 0.3492
+    ## alternative hypothesis: true difference in means is less than 0
+    ## 95 percent confidence interval:
+    ##        -Inf 0.02501183
+    ## sample estimates:
+    ## mean of x mean of y 
+    ## 0.2600000 0.2676151
+
+
+
+
+<!-- ![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA-analysis_files/figure-gfm/unnamed-chunk-3-1.png) -->
+
+![]({{ site.url }}{{ site.baseurl }}/images/LA-analysis_files/figure-gfm/unnamed-chunk-3-1.png)
+
+
+<!-- ![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA-analysis_files/figure-gfm/unnamed-chunk-7-2.png) -->
+
+![]({{ site.url }}{{ site.baseurl }}/images/LA-analysis_files/figure-gfm/unnamed-chunk-7-2.png)
+
+### Paired T-test for DFW Rate, pairing by Course. Looking for an LA Effect.
+
+Lets aggregate our data so that we have DFW info by course and by LA presence. Then we can examine the shape of our data and perform a test of differences to see if LA's have a significantly positive impact on DFW rates.
+
+```r
+tab1 = aggregate(DFW,list(LA,Course.Name),sum) # Aggregate DFW count by LA and course as a sum
+
+tab2 = aggregate(Students,list(LA,Course.Name),sum) # Aggregate number of students by LA andcourse as a sum
+
+tab3 = cbind(tab1,round(tab1[,3]/tab2[,3],2)) # combine columns for LA and Course and DFW info by performing average on the DFW rate
+
+colnames(tab3) = c("LA","Course","DFW Count","DFW Rate") # Title the columns
+kable(tab3) # Create table
 ```
 
 | LA  | Course                       | DFW Count | DFW Rate |
@@ -95,31 +149,36 @@ kable(tab3)
 | No  | Statistical Methods          |       674 |     0.25 |
 | Yes | Statistical Methods          |        23 |     0.21 |
 
-### Check Normality before Applying Parametric Test
-```r
-shapiro.test(tab3$`DFW Rate`[tab3$LA=="Yes"]-tab3$`DFW Rate`[tab3$LA=="No"])
+We need to check the shape of the data to see if it is normal enough to apply a parametric test. The Shapiro-Wilk Test for Normality will do. When interested in a test for differences, we must use the differences of the DFW rates for categories we are concerned about (La/No LA) in the test for normality.
 
-hist(tab3$`DFW Rate`[tab3$LA=="Yes"]-tab3$`DFW Rate`[tab3$LA=="No"],xlab = "Difference between DFW Rates by Course",main=paste("Histogram of the differences between \nDFW Rates by Courses with/without LA's"))
+```r
+LA_DFW<-tab3$`DFW Rate`[tab3$LA=="Yes"] # Get DFW rate by course when there is an LA
+NonLA_DFW<-tab3$`DFW Rate`[tab3$LA=="No"] # Get DFW rate by course when there is not an LA
+
+shapiro.test(tab3$`DFW Rate`[tab3$LA=="Yes"]-tab3$`DFW Rate`[tab3$LA=="No"]) # Perform test for normality on the difference between our DFW rates for LA and Non-LA courses
+
+hist(tab3$`DFW Rate`[tab3$LA=="Yes"]-tab3$`DFW Rate`[tab3$LA=="No"],xlab = "Difference between DFW Rates by Course",main=paste("Histogram of the differences between \nDFW Rates by Courses with/without LA's")) # Create histogram for data used in normality test
 ```
     ## 
     ##  Shapiro-Wilk normality test
     ## 
-    ## data:  tab3$`DFW Rate`[tab3$LA == "Yes"] - tab3$`DFW Rate`[tab3$LA ==     "No"]
+    ## data:  LA_DFW - NonLA_DFW
     ## W = 0.97282, p-value = 0.8487
     
-![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA_Paper_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->    
+![]({{ site.url }}{{ site.baseurl }}/images/LA-analysis_files/figure-gfm/unnamed-chunk-2-2.png)
 
-### Paired T-test for DFW Rate, pairing by Course. Looking for an LA Effect.
+<!-- ![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA_Paper_files/figure-gfm/unnamed-chunk-2-1.png) -->   
+
+As can be seen not only by the result of our test, but also the shape of the data, the data certainly is approximately normal and thus we may perform parametric tests, specifically a two-sample, left-tailed, paired t-test (\(\alpha = .05\)).
 
 ```r
-LA_DFW<-tab3$`DFW Rate`[tab3$LA=="Yes"]
-NonLA_DFW<-tab3$`DFW Rate`[tab3$LA=="No"]
-t.test(LA_DFW,NonLA_DFW,paired=TRUE,alternative="less")
+t.test(LA_DFW,NonLA_DFW,paired=TRUE,alternative="less") # Perform test for differences
 
-plot(density(tab3$DFW.Rate[tab3$LA=="No"]),xlim=c(0,.7),main = "Distribution of DFW Rates for Courses with LA's or without LA's",xlab = "DFW Rate")
-lines(density(tab3$DFW.Rate[tab3$LA=="Yes"]),col="red")
-legend(x=.5,y=3.5,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1)
+plot(density(tab3$DFW.Rate[tab3$LA=="No"]),xlim=c(0,.7),main = "Distribution of DFW Rates for Courses with LA's or without LA's",xlab = "DFW Rate") # Plot density curve for non-LA courses
+lines(density(tab3$DFW.Rate[tab3$LA=="Yes"]),col="red") # Superimpose LA course density curve
+legend(x=.5,y=3.5,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1) # Format density plot
 ```
+
     ## 
     ##  Paired t-test
     ## 
@@ -132,17 +191,26 @@ legend(x=.5,y=3.5,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1)
     ## mean of the differences 
     ##              0.01388889
 
-![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA-analysis_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+![]({{ site.url }}{{ site.baseurl }}/images/LA-analysis_files/figure-gfm/unnamed-chunk-5-1.png)
+
+<!-- ![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA-analysis_files/figure-gfm/unnamed-chunk-5-1.png) -->
+
+We get a test statistic of t = 0.938 and a p-value that is much greater than our set \(\alpha = .05\) level. Since our statistic is >0, this indicates that the average DFW rate accross courses actually goes up when LA's are present.
+
+### Wilcoxon Signed-Rank Test for DFW Rate, pairing by Course. Looking for an LA Effect.
+
+We now will consider a new dataset with similar information. Here we consider DFW Rates by instructor instead of by course as seen previously. We will assign instructors an ID in the "Instructors" column for anonymity.
 
 ```r
-dat1 = read.csv("PairedData.csv")[,4:15]
-dat1$DFW = dat1$DF.Number+dat1$W.Number
+dat1 = read.csv("PairedData.csv")[,4:15] # Import dataset for DFW data paired by instructor
+dat1$DFW = dat1$DF.Number+dat1$W.Number # Get a column for DFW count
 attach(dat1)
 
-tab1 = aggregate(DFW,list(LA,Instructors),sum)
+tab1 = aggregate(DFW,list(LA,Instructors),sum) 
 tab2 = aggregate(Students,list(LA,Instructors),sum)
 tab3 = cbind(tab1,round(tab1[,3]/tab2[,3],2))
-colnames(tab3) = c("LA","Instructors","DFW Count","DFW Rate")
+colnames(tab3) = c("LA","Instructors","DFW Count","DFW Rate") # Perform similar aggregation as previous table but pairing by instructor instead of by course
 kable(tab3)
 ```
 
@@ -179,29 +247,38 @@ kable(tab3)
 | No  |          15 |        14 |     0.16 |
 | Yes |          15 |        10 |     0.19 |
 
-```r
-shapiro.test(tab3$`DFW Rate`[tab3 == "Yes"]-tab3$`DFW Rate`[tab3$LA == "No"])
 
-hist(tab3$`DFW Rate`[tab3$LA == "No"],xlab = "Difference between DFW Rates by Instructor",main=paste("Histogram of the differences between \nDFW Rates by Instructors with/without LA's"))
+Similarly to our previous data exploration we need to examine the shape of the data. Specifically, we need to examine the shape of the data made up of the differences between matched pairs by instructor for when an LA is present and when one is not.
+
+```r
+LA_DFW<-tab3$`DFW Rate`[tab3 == "Yes"] # Get LA DFW rates by instructor
+NonLA_DFW<-tab3$`DFW Rate`[tab3$LA == "No"] # Get non-LA DFW rates by instructor
+
+shapiro.test(LA_DFW - NonLA_DFW) # Perform test for normality on difference between data 
+
+hist(LA_DFW - NonLA_DFW,xlab = "Difference between DFW Rates by Instructor",main=paste("Histogram of the differences between \nDFW Rates by Instructors with/without LA's")) # Show shape of data used in test for normality
 ```
 
     ## 
     ##  Shapiro-Wilk normality test
     ## 
-    ## data:  tab3$`DFW Rate`[tab3 == "Yes"] - tab3$`DFW Rate`[tab3$LA == "No"]
+    ## data:  LA_DFW - NonLA_DFW
     ## W = 0.63002, p-value = 4.869e-05
 
-![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA_Paper_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![]({{ site.url }}{{ site.baseurl }}/images/LA-analysis_files/figure-gfm/unnamed-chunk-7-1.png)
 
+<!-- ![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA-analysis_files/figure-gfm/unnamed-chunk-7-1.png) -->
+
+Our p-value is approx. 0 and thus we reject the shape of the data being normal. As a result, we may not use parametric tests and we will revert to the nonparametric equivalent of the two-sample, left tailed, paired t-test: the Wilcoxon Signed-Rank Test \(\alpha = .05\).
 
 ```r
-LA_DFW<-tab3$`DFW Rate`[tab3 == "Yes"]
-NonLA_DFW<-tab3$`DFW Rate`[tab3$LA == "No"]
-wilcox.test(LA_DFW,NonLA_DFW,alternative = "less",paired = T)
+wilcox.test(LA_DFW,NonLA_DFW,alternative = "less",paired = T) # Perform nonparametric test
 
 plot(density(Instruct_LA),xlim=c(0,.7),main = paste("Distribution of DFW Rates for Instructors \n that Taught Sections with LA's or without LA's"),xlab = "DFW Rate")
+
 lines(density(Instruct_No_LA),col="red")
-legend(x=.5,y=2.5,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1)
+
+legend(x=.5,y=2.5,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1) # Plot densities similar to before but for new data
 ```
 
     ## 
@@ -211,47 +288,17 @@ legend(x=.5,y=2.5,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1)
     ## V = 36, p-value = 0.6225
     ## alternative hypothesis: true location shift is less than 0
     
-![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA_Paper_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![]({{ site.url }}{{ site.baseurl }}/images/LA_Paper_files/figure-gfm/unnamed-chunk-9-1.png)
 
-![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA-analysis_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+<!-- ![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA_Paper_files/figure-gfm/unnamed-chunk-9-1.png) -->
 
-    ##     Group.1     Group.2          x
-    ## 1  BSC1010C   Fall 2016 0.35571429
-    ## 2  CHM1045    Fall 2016 0.35500000
-    ## 3  COP2006    Fall 2016 0.06500000
-    ## 4  MAC1105    Fall 2016 0.28812500
-    ## 5  MAT1033    Fall 2016 0.20882353
-    ## 6  MGF1106    Fall 2016 0.10666667
-    ## 7  STA2023    Fall 2016 0.23357143
-    ## 8  CHM1045    Fall 2017 0.33571429
-    ## 9  COP1500    Fall 2017 0.25000000
-    ## 10 ESC1000C   Fall 2017 0.18000000
-    ## 11 MAC1105    Fall 2017 0.29866667
-    ## 12 MAC1147    Fall 2017 0.26454545
-    ## 13 MAC2311    Fall 2017 0.33500000
-    ## 14 MAT1033    Fall 2017 0.24529412
-    ## 15 CHM1045    Fall 2018 0.41000000
-    ## 16 CHM1046    Fall 2018 0.43333333
-    ## 17 COP1500    Fall 2018 0.15000000
-    ## 18 COP2006    Fall 2018 0.17000000
-    ## 19 EVR1001C   Fall 2018 0.08666667
-    ## 20 MAC2312    Fall 2018 0.23200000
-    ## 21 STA2122    Fall 2018 0.17666667
-    ## 22 BSC1010C Spring 2017 0.34375000
-    ## 23 CHM1046  Spring 2017 0.34000000
-    ## 24 COP1500  Spring 2017 0.19000000
-    ## 25 COP2006  Spring 2017 0.07000000
-    ## 26 MAC1105  Spring 2017 0.27125000
-    ## 27 MAC1147  Spring 2017 0.22000000
-    ## 28 MAC2233  Spring 2017 0.38833333
-    ## 29 PHY2054C Spring 2017 0.16000000
-    ## 30 CHM1045  Spring 2018 0.40200000
-    ## 31 CHM1046  Spring 2018 0.31000000
-    ## 32 COP1500  Spring 2018 0.19000000
-    ## 33 COP2006  Spring 2018 0.17000000
-    ## 34 EGM3420C Spring 2018 0.22666667
-    ## 35 ESC1000C Spring 2018 0.12500000
-    ## 36 MAC1147  Spring 2018 0.23600000
-    ## 37 MAC2311  Spring 2018 0.30428571
-    ## 38 MGF1106  Spring 2018 0.17666667
-    ## 39 STA2023  Spring 2018 0.27230769
+We observe a p-value greater than our significance level and thus conclude that instructors do not observe a drop in DFW rates when an LA is present compared to when they are not present.
+
+
+## Conclusion
+
+It is evident from the data we have that LA's do not have the impact on students that they are meant to be having. However, it is our conjecture that there is reason to believe that there are underlying truths in the data that were not represented in the data due to lack of foresight when recording the data. 
+
+For example, courses with a Learning Assistant had only one and no Instructional Assistants. However, courses with no Learning Assistants may have had an Instructional Assistant. So, in our Non-LA data we may have had courses who had an assistant in the classroom who, though not having the official role of a Learning Assistant, could be trained as one and is utilizing the techniques they have learned. This would cause a leftward shift in the densities of the DFW rates for sections without LA's.
+
+One further question worth considering is if we can do better with our data? Are DFW rates the best indicator for Learning Assistant impact on student performance? Perhaps not. This too could account for lack of differences.
