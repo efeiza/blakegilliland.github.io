@@ -9,7 +9,7 @@ mathjax: "true"
 ---
 
 
-<iframe src="https://public.tableau.com/shared/W3BGJMYWF?:showVizHome=no&:embed=true" width="90%" height="500"></iframe>
+<iframe src="https://public.tableau.com/shared/W3BGJMYWF?:showVizHome=no&:embed=true" width="100%" height="800"></iframe>
 
 
 
