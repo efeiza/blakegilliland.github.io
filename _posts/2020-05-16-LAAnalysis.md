@@ -50,7 +50,7 @@ As you can see by the head of our .csv, we know what subject the section was (co
 
 ### Paired T-test for DFW Rate, pairing by Section. Looking for an LA Effect.
 
-We begin at the top-most and most granular level: comparaing sections without respect to instructor, term, or course. Simply, do LA's lower DFW Rates? We have plenty of data (51 sections with an LA, 239 sections without an LA) so we may proceed with parametric testing. Welch's Two-Sample, left-tailed t-test is appropriate, as determined by R automatically, since the sample sizes are unequal by a significant margin.
+We begin at the top-most and most granular level: comparaing sections without respect to instructor, term, or course. Simply, do LA's lower DFW Rates? We have plenty of data (51 sections with an LA, 239 sections without an LA) so we may proceed with parametric testing. Welch's Two-Sample, left-tailed t-test is appropriate, as determined by R automatically, since the sample sizes are unequal by a significant margin \($$\alpha = .05$$\).
 
 Let's also take a look at the histogram for their differences, just to confirm it is approximately normally distributed, as well as the desnity plot of the two cases to get a sense of how the distribution of DFW rates compare between LA and Non-LA sections. 
 
@@ -169,7 +169,7 @@ hist(tab3$`DFW Rate`[tab3$LA=="Yes"]-tab3$`DFW Rate`[tab3$LA=="No"],xlab = "Diff
 
 <!-- ![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA_Paper_files/figure-gfm/unnamed-chunk-2-1.png) -->   
 
-As can be seen not only by the result of our test, but also the shape of the data, the data certainly is approximately normal and thus we may perform parametric tests, specifically a two-sample, left-tailed, paired t-test (\($$\alpha = .05$$\)).
+As can be seen not only by the result of our test, but also the shape of the data, the data certainly is approximately normal and thus we may perform parametric tests, specifically a two-sample, left-tailed, paired t-test \($$\alpha = .05$$\).
 
 ```r
 t.test(LA_DFW,NonLA_DFW,paired=TRUE,alternative="less") # Perform test for differences
