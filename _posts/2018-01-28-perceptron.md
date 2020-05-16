@@ -9,7 +9,7 @@ mathjax: "true"
 ---
 
 
-<iframe seamless frameborder="0" src="https://public.tableau.com/shared/W3BGJMYWF?:showVizHome=no&:embed=true" width = '650' height = '450' scrolling='yes' ></iframe>
+<iframe src="https://public.tableau.com/shared/W3BGJMYWF?:showVizHome=no&:embed=true" width="90%" height="500"></iframe>
 
 
 
