@@ -5,7 +5,9 @@ header:
   image: "/images/highest.rated_.apartment.communities.in_.chicago.jpg"
 ---
 
-My name is Blake and I am 21 years old and I am an Aspiring Data Analyst and Actuarial Analyst. I graduated from Florida Gulf Coast University (FGCU) with a Bachelor of Science in Mathematics and a minor in Statistics (GPA: 3.9). My research as an undergraduate includes nonparametric density estimation via wavelet transform, probabilities and strategies in dice games, and the analysis of Learning Assistant impact on student learning. I was elected as the Vice President of FGCU's Mathematics Club in 2018 and continued to serve up through my graduating semester. I passed Exam P/1 from the Society of Actuaries for my knowledge of Probability Theory which demonstrates the high level to which I understand the theory and applications of various probabilistic concepts. 
+My name is Blake and I am 21 years old and I am an Aspiring Data Analyst and Actuarial Analyst. I graduated from Florida Gulf Coast University (FGCU) with a Bachelor of Science in Mathematics and a minor in Statistics (GPA: 3.9). I am most proficient with R, SQL, Excel, and Tableau for data analysis and vizualization. I am learning Python and would like to learn SAS. 
+
+As an undergraduate I had many research opportunities including deriving nonparametric density estimators via wavelet transform, investigating the probabilities and strategies involved in dice games, and analyzing Learning Assistant impact on student learning at FGCU. I was elected as the Vice President of FGCU's Mathematics Club in 2018 and continued to serve up through my graduating semester. I passed Exam P/1 from the Society of Actuaries for my knowledge of Probability Theory which demonstrates the high level to which I understand the theory and applications of various probabilistic concepts. 
 
 I am passionate about data science and data analysis because data is the only objective information in this world and I think it is important to be able to understand the patterns and truths it has to offer beneath the surface. I consider it my responsibility to practice it with high integrity.
 
