@@ -8,6 +8,11 @@ excerpt: "Data Wrangling, Data Science, Messy Data"
 mathjax: "true"
 ---
 
+
+<iframe src="https://public.tableau.com/shared/W3BGJMYWF?:showVizHome=no&:embed=true" width="100%" height="800"></iframe>
+
+
+
 # H1 Heading
 
 ## H2 Heading
