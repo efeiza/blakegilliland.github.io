@@ -165,7 +165,7 @@ hist(tab3$`DFW Rate`[tab3$LA=="Yes"]-tab3$`DFW Rate`[tab3$LA=="No"],xlab = "Diff
     ## data:  LA_DFW - NonLA_DFW
     ## W = 0.97282, p-value = 0.8487
     
-![]({{ site.url }}{{ site.baseurl }}/images/LA-analysis_files/figure-gfm/unnamed-chunk-2-2.png)
+![]({{ site.url }}{{ site.baseurl }}/images/LA-analysis_files/figure-gfm/unnamed-chunk-2-1.png)
 
 <!-- ![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA_Paper_files/figure-gfm/unnamed-chunk-2-1.png) -->   
 
