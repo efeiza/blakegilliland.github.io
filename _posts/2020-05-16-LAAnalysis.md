@@ -144,8 +144,8 @@ tab2 = aggregate(Students,list(LA,Instructors),sum)
 tab3 = cbind(tab1,round(tab1[,3]/tab2[,3],2))
 colnames(tab3) = c("LA","Instructors","DFW Count","DFW Rate")
 kable(tab3)
-
 ```
+
 | LA  | Instructors | DFW Count | DFW Rate |
 | :-- | ----------: | --------: | -------: |
 | No  |           1 |        25 |     0.32 |
