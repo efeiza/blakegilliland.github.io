@@ -155,9 +155,9 @@ We need to check the shape of the data to see if it is normal enough to apply a 
 LA_DFW<-tab3$`DFW Rate`[tab3$LA=="Yes"] # Get DFW rate by course when there is an LA
 NonLA_DFW<-tab3$`DFW Rate`[tab3$LA=="No"] # Get DFW rate by course when there is not an LA
 
-shapiro.test(tab3$`DFW Rate`[tab3$LA=="Yes"]-tab3$`DFW Rate`[tab3$LA=="No"]) # Perform test for normality on the difference between our DFW rates for LA and Non-LA courses
+shapiro.test(LA_DFW-NonLA_DFW) # Perform test for normality on the difference between our DFW rates for LA and Non-LA courses
 
-hist(tab3$`DFW Rate`[tab3$LA=="Yes"]-tab3$`DFW Rate`[tab3$LA=="No"],xlab = "Difference between DFW Rates by Course",main=paste("Histogram of the differences between \nDFW Rates by Courses with/without LA's")) # Create histogram for data used in normality test
+hist(LA_DFW-NonLA_DFW,xlab = "Difference between DFW Rates by Course",main=paste("Histogram of the differences between \nDFW Rates by Courses with/without LA's")) # Create histogram for data used in normality test
 ```
     ## 
     ##  Shapiro-Wilk normality test
@@ -174,8 +174,8 @@ As can be seen not only by the result of our test, but also the shape of the dat
 ```r
 t.test(LA_DFW,NonLA_DFW,paired=TRUE,alternative="less") # Perform test for differences
 
-plot(density(tab3$DFW.Rate[tab3$LA=="No"]),xlim=c(0,.7),main = "Distribution of DFW Rates for Courses with LA's or without LA's",xlab = "DFW Rate") # Plot density curve for non-LA courses
-lines(density(tab3$DFW.Rate[tab3$LA=="Yes"]),col="red") # Superimpose LA course density curve
+plot(density(NonLA_DFW),xlim=c(0,.7),main = "Distribution of DFW Rates for Courses with LA's or without LA's",xlab = "DFW Rate") # Plot density curve for non-LA courses
+lines(density(LA_DFW),col="red") # Superimpose LA course density curve
 legend(x=.5,y=3.5,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1) # Format density plot
 ```
 
@@ -196,7 +196,7 @@ legend(x=.5,y=3.5,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1) # Format d
 
 <!-- ![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA-analysis_files/figure-gfm/unnamed-chunk-5-1.png) -->
 
-We get a test statistic of t = 0.938 and a p-value that is much greater than our set \(\$$alpha = .05$$\) level. Since our statistic is >0, this indicates that the average DFW rate accross courses actually goes up when LA's are present.
+We get a test statistic of t = 0.938 and a p-value that is much greater than our set \($$\alpha = .05$$\) level. Since our statistic is >0, this indicates that the average DFW rate accross courses actually goes up when LA's are present.
 
 ### Wilcoxon Signed-Rank Test for DFW Rate, pairing by Course. Looking for an LA Effect.
 
@@ -269,7 +269,7 @@ hist(LA_DFW - NonLA_DFW,xlab = "Difference between DFW Rates by Instructor",main
 
 <!-- ![](/Users/blakegilliland/Documents/GitHub/blakegilliland.github.io/images/LA-analysis_files/figure-gfm/unnamed-chunk-7-1.png) -->
 
-Our p-value is approx. 0 and thus we reject the shape of the data being normal. As a result, we may not use parametric tests and we will revert to the nonparametric equivalent of the two-sample, left tailed, paired t-test: the Wilcoxon Signed-Rank Test \(\$$alpha = .05$$\).
+Our p-value is approx. 0 and thus we reject the shape of the data being normal. As a result, we may not use parametric tests and we will revert to the nonparametric equivalent of the two-sample, left tailed, paired t-test: the Wilcoxon Signed-Rank Test \($$\alpha = .05$$\).
 
 ```r
 wilcox.test(LA_DFW,NonLA_DFW,alternative = "less",paired = T) # Perform nonparametric test
