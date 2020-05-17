@@ -24,9 +24,13 @@ library(xtable)
 library(ggplot2)
 library(knitr)
 
-dat = read.csv("LA_DFW_Data.csv")[,1:14] # Import CSV
-dat$DFW = dat$DF.Number+dat$W.Number # Create new column for total DFW counts
-dat = dat[,c(1,4,5,6,7,8,10,12,15)] # Filter columns by ones relevant to our analysis
+# Import CSV
+dat = read.csv("LA_DFW_Data.csv")[,1:14] 
+# Create new column for total DFW counts
+dat$DFW = dat$DF.Number+dat$W.Number
+# Filter columns by ones relevant to our analysis
+dat = dat[,c(1,4,5,6,7,8,10,12,15)] 
+
 attach(dat)
 head(dat)
 ```
@@ -55,19 +59,19 @@ We begin at the top-most and most granular level: comparaing sections without re
 Let's also take a look at the histogram for their differences, just to confirm it is approximately normally distributed, as well as the desnity plot of the two cases to get a sense of how the distribution of DFW rates compare between LA and Non-LA sections. 
 
 ```r
-LA_DFW<-dat$Avg..DFW.RATE[dat$LA=="Yes"] # Get DFW Rates for sections where an LA is present
+# Get DFW Rates for sections where an LA is/isn't present
+LA_DFW<-dat$Avg..DFW.RATE[dat$LA=="Yes"]
+NonLA_DFW<-dat$Avg..DFW.RATE[dat$LA=="No"]
 
-NonLA_DFW<-dat$Avg..DFW.RATE[dat$LA=="No"] # Get DFW Rates for sections where an LA is not present
+# Get histogram for differences in DFW rates 
+hist(LA_DFW-NonLA_DFW, xlab = "Difference between DFW Rates Accross Sections",main=paste("Histogram of the \nDifference between DFW Rates Accross Sections"))
 
-hist(LA_DFW-NonLA_DFW, xlab = "Difference between DFW Rates Accross Sections",main=paste("Histogram of the \nDifference between DFW Rates Accross Sections"))# Get histogram for differences in DFW rates 
+# Perform parametric test for differences
+t.test(LA_DFW,NonLA_DFW,alternative="less") 
 
-t.test(LA_DFW,NonLA_DFW,alternative="less") # perform test for differences
-
-
-plot(density(dat$Avg..DFW.RATE[dat$LA=="Yes"]),xlim=c(0,.7),ylim=c(0,3.5),main = paste("Distribution of DFW Rates Across Sections \n with LA's or without LA's"),xlab = "DFW Rate") # Plot density for when an LA is present accross sections
-
-lines(density(dat$Avg..DFW.RATE[dat$LA=="No"]),col="red") # Superimpose density on existing density but for when an LA is not present accross sections
-
+# Plot densities for when an LA is/isn't present, accross sections
+plot(density(dat$Avg..DFW.RATE[dat$LA=="Yes"]),xlim=c(0,.7),ylim=c(0,3.5),main = paste("Distribution of DFW Rates Across Sections \n with LA's or without LA's"),xlab = "DFW Rate") 
+lines(density(dat$Avg..DFW.RATE[dat$LA=="No"]),col="red")
 legend(x=.5,y=3,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1) #Format curves and legends
 ```
 
@@ -100,14 +104,18 @@ legend(x=.5,y=3,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1) #Format curv
 Lets aggregate our data so that we have DFW info by course and by LA presence. Then we can examine the shape of our data and perform a test of differences to see if LA's have a significantly positive impact on DFW rates.
 
 ```r
-tab1 = aggregate(DFW,list(LA,Course.Name),sum) # Aggregate DFW count by LA and course as a sum
+# Aggregate DFW count by LA and course as a sum
+tab1 = aggregate(DFW,list(LA,Course.Name),sum)
 
-tab2 = aggregate(Students,list(LA,Course.Name),sum) # Aggregate number of students by LA andcourse as a sum
+# Aggregate number of students by LA and course as a sum
+tab2 = aggregate(Students,list(LA,Course.Name),sum)
 
-tab3 = cbind(tab1,round(tab1[,3]/tab2[,3],2)) # combine columns for LA and Course and DFW info by performing average on the DFW rate
+# Combine columns for LA and Course and DFW info by performing average on the DFW rate
+tab3 = cbind(tab1,round(tab1[,3]/tab2[,3],2)) 
 
+# Create table
 colnames(tab3) = c("LA","Course","DFW Count","DFW Rate") # Title the columns
-kable(tab3) # Create table
+kable(tab3)
 ```
 
 | LA  | Course                       | DFW Count | DFW Rate |
@@ -152,12 +160,15 @@ kable(tab3) # Create table
 We need to check the shape of the data to see if it is normal enough to apply a parametric test. The Shapiro-Wilk Test for Normality will do. When interested in a test for differences, we must use the differences of the DFW rates for categories we are concerned about (La/No LA) in the test for normality.
 
 ```r
-LA_DFW<-tab3$`DFW Rate`[tab3$LA=="Yes"] # Get DFW rate by course when there is an LA
-NonLA_DFW<-tab3$`DFW Rate`[tab3$LA=="No"] # Get DFW rate by course when there is not an LA
+# Get DFW rate by course when there is/isn't an LA
+LA_DFW<-tab3$`DFW Rate`[tab3$LA=="Yes"] 
+NonLA_DFW<-tab3$`DFW Rate`[tab3$LA=="No"]
 
-shapiro.test(LA_DFW-NonLA_DFW) # Perform test for normality on the difference between our DFW rates for LA and Non-LA courses
+# Perform test for normality on the difference between our DFW rates for LA and Non-LA courses
+shapiro.test(LA_DFW-NonLA_DFW) 
 
-hist(LA_DFW-NonLA_DFW,xlab = "Difference between DFW Rates by Course",main=paste("Histogram of the differences between \nDFW Rates by Courses with/without LA's")) # Create histogram for data used in normality test
+# Create histogram for data used in normality test
+hist(LA_DFW-NonLA_DFW,xlab = "Difference between DFW Rates by Course",main=paste("Histogram of the differences between \nDFW Rates by Courses with/without LA's")) 
 ```
     ## 
     ##  Shapiro-Wilk normality test
@@ -172,11 +183,13 @@ hist(LA_DFW-NonLA_DFW,xlab = "Difference between DFW Rates by Course",main=paste
 As can be seen not only by the result of our test, but also the shape of the data, the data certainly is approximately normal and thus we may perform parametric tests, specifically a two-sample, left-tailed, paired t-test \($$\alpha = .05$$\).
 
 ```r
-t.test(LA_DFW,NonLA_DFW,paired=TRUE,alternative="less") # Perform test for differences
+# Perform test for differences
+t.test(LA_DFW,NonLA_DFW,paired=TRUE,alternative="less") 
 
-plot(density(NonLA_DFW),xlim=c(0,.7),main = "Distribution of DFW Rates for Courses with LA's or without LA's",xlab = "DFW Rate") # Plot density curve for non-LA courses
-lines(density(LA_DFW),col="red") # Superimpose LA course density curve
-legend(x=.5,y=3.5,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1) # Format density plot
+# Plot density curves for LA/non-LA courses
+plot(density(NonLA_DFW),xlim=c(0,.7),main = "Distribution of DFW Rates for Courses with LA's or without LA's",xlab = "DFW Rate") 
+lines(density(LA_DFW),col="red")
+legend(x=.5,y=3.5,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1)
 ```
 
     ## 
@@ -203,14 +216,17 @@ We get a test statistic of t = 0.938 and a p-value that is much greater than our
 We now will consider a new dataset with similar information. Here we consider DFW Rates by instructor instead of by course as seen previously. We will assign instructors an ID in the "Instructors" column for anonymity.
 
 ```r
-dat1 = read.csv("PairedData.csv")[,4:15] # Import dataset for DFW data paired by instructor
-dat1$DFW = dat1$DF.Number+dat1$W.Number # Get a column for DFW count
+# Import dataset for DFW data paired by instructor
+dat1 = read.csv("PairedData.csv")[,4:15]
+# Get a column for DFW count
+dat1$DFW = dat1$DF.Number+dat1$W.Number
 attach(dat1)
 
+# Perform similar aggregation as previous table but pairing by instructor instead of by course
 tab1 = aggregate(DFW,list(LA,Instructors),sum) 
 tab2 = aggregate(Students,list(LA,Instructors),sum)
 tab3 = cbind(tab1,round(tab1[,3]/tab2[,3],2))
-colnames(tab3) = c("LA","Instructors","DFW Count","DFW Rate") # Perform similar aggregation as previous table but pairing by instructor instead of by course
+colnames(tab3) = c("LA","Instructors","DFW Count","DFW Rate") 
 kable(tab3)
 ```
 
@@ -251,12 +267,15 @@ kable(tab3)
 Similarly to our previous data exploration we need to examine the shape of the data. Specifically, we need to examine the shape of the data made up of the differences between matched pairs by instructor for when an LA is present and when one is not.
 
 ```r
-LA_DFW<-tab3$`DFW Rate`[tab3 == "Yes"] # Get LA DFW rates by instructor
-NonLA_DFW<-tab3$`DFW Rate`[tab3$LA == "No"] # Get non-LA DFW rates by instructor
+# Get LA/Non-LA DFW rates by instructor
+LA_DFW<-tab3$`DFW Rate`[tab3 == "Yes"]
+NonLA_DFW<-tab3$`DFW Rate`[tab3$LA == "No"]
 
-shapiro.test(LA_DFW - NonLA_DFW) # Perform test for normality on difference between data 
+# Perform test for normality on difference between data
+shapiro.test(LA_DFW - NonLA_DFW) 
 
-hist(LA_DFW - NonLA_DFW,xlab = "Difference between DFW Rates by Instructor",main=paste("Histogram of the differences between \nDFW Rates by Instructors with/without LA's")) # Show shape of data used in test for normality
+# Show shape of data used in test for normality
+hist(LA_DFW - NonLA_DFW,xlab = "Difference between DFW Rates by Instructor",main=paste("Histogram of the differences between \nDFW Rates by Instructors with/without LA's")) 
 ```
 
     ## 
@@ -272,13 +291,13 @@ hist(LA_DFW - NonLA_DFW,xlab = "Difference between DFW Rates by Instructor",main
 Our p-value is approx. 0 and thus we reject the shape of the data being normal. As a result, we may not use parametric tests and we will revert to the nonparametric equivalent of the two-sample, left tailed, paired t-test: the Wilcoxon Signed-Rank Test \($$\alpha = .05$$\).
 
 ```r
-wilcox.test(LA_DFW,NonLA_DFW,alternative = "less",paired = T) # Perform nonparametric test
+# Perform nonparametric test
+wilcox.test(LA_DFW,NonLA_DFW,alternative = "less",paired = T) 
 
+# Plot densities similar to before but for new data
 plot(density(Instruct_LA),xlim=c(0,.7),main = paste("Distribution of DFW Rates for Instructors \n that Taught Sections with LA's or without LA's"),xlab = "DFW Rate")
-
 lines(density(Instruct_No_LA),col="red")
-
-legend(x=.5,y=2.5,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1) # Plot densities similar to before but for new data
+legend(x=.5,y=2.5,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1) 
 ```
 
     ## 
