@@ -2,13 +2,13 @@
 main:
   - title: "About Me"
     url: /about/
+  - title: "Sample Collections"
+    url: /collection-archive/  
   # - title: "Data Wrangling Projects"
   #  url: /data-wrangling/
   # - title: "About"
   #   url: https://mmistakes.github.io/minimal-mistakes/about/
   # - title: "Sample Posts"
   #   url: /year-archive/
-   - title: "Sample Collections"
-     url: /collection-archive/
   # - title: "Sitemap"
   #   url: /sitemap/
