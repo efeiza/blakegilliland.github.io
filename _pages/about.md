@@ -1,5 +1,5 @@
 ---
-title: "About"
+title: "About Me"
 permalink: /about/
 header:
   image: "/images/highest.rated_.apartment.communities.in_.chicago.jpg"
