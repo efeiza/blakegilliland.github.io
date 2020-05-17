@@ -5,7 +5,7 @@ header:
   image: "/images/highest.rated_.apartment.communities.in_.chicago.jpg"
 ---
 
-My name is Blake and I graduated from Florida Gulf Coast University (FGCU) with a Bachelor of Science in Mathematics and a minor in Statistics (GPA: 3.9). I am most proficient with R, SQL, Excel, and Tableau for Data Analysis and Vizualization. I am learning Python and would like to learn SAS. 
+My name is Blake and I am an Aspiring Data Scientist, Statistician, and Data Analyst. I graduated from Florida Gulf Coast University (FGCU) with a Bachelor of Science in Mathematics and a minor in Statistics (GPA: 3.9). I am very proficient with R, SQL, Excel, and Tableau for Data Analysis and Vizualization. I am learning Python and would like to learn SAS. I hope you find my projects on the homepage to be interesting!
 
 I am passionate about Data Science and Data Analysis because data is the only objective information in this world and I think it is important to be able to understand the patterns and truths it has to offer beneath the surface. I consider it my responsibility to practice it with high integrity.
 
