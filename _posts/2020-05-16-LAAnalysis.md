@@ -213,7 +213,7 @@ legend(x=.5,y=3.5,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1)
 
 We get a test statistic of t = 0.938 and a p-value that is much greater than our set \($$\alpha = .05$$\) level. Since our statistic is >0, this indicates that the average DFW rate accross courses actually goes up when LA's are present.
 
-### Wilcoxon Signed-Rank Test for DFW Rate, pairing by Course. Looking for an LA Effect.
+### Wilcoxon Signed-Rank Test for DFW Rate, pairing by Instructor. Looking for an LA Effect.
 
 We now will consider a new dataset with similar information. Here we consider DFW Rates by instructor instead of by course as seen previously. We will assign instructors an ID in the "Instructors" column for anonymity.
 
