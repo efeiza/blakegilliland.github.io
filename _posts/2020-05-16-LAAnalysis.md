@@ -50,7 +50,7 @@ head(dat)
     ## 5       24   1
     ## 6       32   3
 
-As you can see by the head of our .csv, we know what subject the section was (columns 1 and 2), what term it was taught in, whether there was a LA or not, which section (CRN) it was (and therefore who taught it), what the DFW (D/F/Withdraw) rate was for that section, how many students were in it, and the DFW count, respectively.
+As you can see by the head of our .csv, we know what subject the section was (columns 1 and 2), what term it was taught in, whether there was an LA or not, which section (CRN) it was (and therefore who taught it), what the DFW (D/F/Withdraw) rate was for that section, how many students were in it, and the DFW count, respectively.
 
 ### Paired T-test for DFW Rate, pairing by Section. Looking for an LA Effect.
 
@@ -99,9 +99,11 @@ legend(x=.5,y=3,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1) #Format curv
 
 ![]({{ site.url }}{{ site.baseurl }}/images/LA-analysis_files/figure-gfm/unnamed-chunk-7-2.png)
 
+With a p-value >.05 we may conclude that the average DFW Rate for sections with LA's are not significantly lower than those without LA's. This, as mentioned, does not account for multiple confounding variables such as course subject and instructor. So, let's try to do so. 
+
 ### Paired T-test for DFW Rate, pairing by Course. Looking for an LA Effect.
 
-Lets aggregate our data so that we have DFW info by course and by LA presence. Then we can examine the shape of our data and perform a test of differences to see if LA's have a significantly positive impact on DFW rates.
+Let's aggregate our data so that we have DFW info by course and by LA presence. Then we can examine the shape of our data and perform a test of differences to see if LA's have a significantly positive impact on DFW rates.
 
 ```r
 # Aggregate DFW count by LA and course as a sum
@@ -157,7 +159,7 @@ kable(tab3)
 | No  | Statistical Methods          |       674 |     0.25 |
 | Yes | Statistical Methods          |        23 |     0.21 |
 
-We need to check the shape of the data to see if it is normal enough to apply a parametric test. The Shapiro-Wilk Test for Normality will do. When interested in a test for differences, we must use the differences of the DFW rates for categories we are concerned about (La/No LA) in the test for normality.
+We need to check the shape of the data to see if it is normal enough to apply a parametric test. The Shapiro-Wilk Test for Normality will do, since our data set is relatively small. When interested in a test for differences, we must use the differences of the DFW rates for categories we are concerned about (LA/Non-LA) in the test for normality.
 
 ```r
 # Get DFW rate by course when there is/isn't an LA
