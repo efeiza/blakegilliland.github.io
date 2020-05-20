@@ -13,6 +13,8 @@ How can we be able to determine which machines may need Maintenance? We look at 
 
 Using custom Table Calculations in Tableau, we can determine %-differential in operating capacity using an 8-hr moving average. Thus, at each individual point we can see how the machine performed for the past 8 hours on average. 
 
-<iframe src="https://public.tableau.com/views/CoalMiningMaintenanceAnalysis/Report?:showVizHome=no&:embed=true" width="100%" height="800"></iframe>
+<iframe src="https://public.tableau.com/shared/RHFDB6CSQ?:showVizHome=no&:embed=true" width="100%" height="800"></iframe>
+
+
 
 This Data Visualization is a Story made up of multiple dashboards. Each frame describes one of the machines, how it performed, how it is trending, and our advice as data experts on whether to perform Maintenance on that machine.
