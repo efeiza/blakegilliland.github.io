@@ -1,7 +1,7 @@
 ---
-title: "Story Telling in Tableau: Coal Mining Machine Maintenance"
+title: "Tableau: Coal Mining Machine Maintenance"
 date: 2020-05-20
-tags: [Tableau, Data Analysis, Power Insights]
+tags: [Tableau, Tableau Stories, Tableau Dashboards, Data Analysis, Power Insights]
 excerpt: "Determine which machines need Maintenance based on capacity usage"
 mathjax: "true"
 ---
