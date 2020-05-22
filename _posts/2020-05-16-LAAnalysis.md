@@ -1,7 +1,7 @@
 ---
-title: "An Assessment of FGCU's Learning Assistant Program"
+title: "Excel & R: An Assessment of FGCU's Learning Assistant Program"
 date: 2020-05-16
-tags: [R, ggplot2,, Excel]
+tags: [R, ggplot2, Excel]
 excerpt: "Statistical Analysis of Learning Assistants"
 mathjax: "true"
 ---
