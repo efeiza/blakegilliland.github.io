@@ -2,6 +2,8 @@
 main:
   - title: "About Me"
     url: /about/
+  - title: "Data Projects"
+    url: /projects/
   # - title: "Sample Collections"
   #  url: /collection-archive/  
   # - title: "Data Wrangling Projects"
