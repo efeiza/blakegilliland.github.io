@@ -6,7 +6,7 @@ excerpt: "Statistical Analysis of Learning Assistants"
 mathjax: "true"
 ---
 
-### Background
+### Background 
 
 Learning Assistants (LA's) are talented undergraduates who have recently taken a course and remember what it is like to learn the material. They help transform undergraduate courses to include small groups of students articulating, defending, and modifying their ideas about relevant problems or phenomena. Their main role is to support student learning in interactive classroom environments, working with small groups of students as they solve challenging conceptual or mathematical problems.
 
