@@ -3,7 +3,7 @@ main:
   - title: "About Me"
     url: /about/
   - title: "Data Projects"
-    url: /collection-archive/
+    url: /portfolio-archive/
   # - title: "Sample Collections"
   #  url: /collection-archive/  
   # - title: "Data Wrangling Projects"
