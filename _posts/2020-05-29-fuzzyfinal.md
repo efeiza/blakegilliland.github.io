@@ -65,7 +65,6 @@ ON orders.website_session_id = website_sessions.website_session_id
 GROUP BY 1;
 ```
 
-<div class="knitsql-table">
 
 | yr\_mo  | orders\_volume | sessions\_volume |
 | :------ | -------------: | ---------------: |
@@ -100,9 +99,6 @@ GROUP BY 1;
 | 2014/07 |           1284 |            19046 |
 | 2014/08 |           1330 |            18615 |
 
-Displaying records 1 - 30
-
-</div>
 
 We see consistent growth in both order and website session volume, a
 positive sign for growth of the business.
@@ -127,7 +123,6 @@ ON orders.website_session_id = website_sessions.website_session_id
 GROUP BY 1,2;
 ```
 
-<div class="knitsql-table">
 
 |   yr | qtr |    CVR |      AOV | rev\_per\_session |
 | ---: | --: | -----: | -------: | ----------------: |
@@ -145,9 +140,6 @@ GROUP BY 1,2;
 | 2014 |   4 | 0.0774 | 63.80783 |          4.939595 |
 | 2015 |   1 | 0.0843 | 62.79659 |          5.293629 |
 
-13 records
-
-</div>
 
 Not only are orders and sessions doing well by volume, but we see an
 improvement in efficiency as well. Session-to-order conversion rates are
@@ -187,7 +179,6 @@ ON orders.website_session_id = website_sessions.website_session_id
 GROUP BY 1,2;
 ```
 
-<div class="knitsql-table">
 
 |   yr | qtr | g\_nonbrand\_orders | b\_nonbrand\_orders | brand\_orders | organic\_orders | direct\_type\_orders |
 | ---: | --: | ------------------: | ------------------: | ------------: | --------------: | -------------------: |
@@ -205,9 +196,6 @@ GROUP BY 1,2;
 | 2014 |   4 |                3249 |                 685 |           617 |             604 |                  532 |
 | 2015 |   1 |                3028 |                 581 |           622 |             641 |                  553 |
 
-13 records
-
-</div>
 
 We see the bulk of the website’s orders comes from our ‘gsearch
 nonbrand’ channel. However, there is still growth in our other
@@ -244,7 +232,6 @@ ON orders.website_session_id = website_sessions.website_session_id
 GROUP BY 1,2;
 ```
 
-<div class="knitsql-table">
 
 |   yr | qtr | g\_non\_orders | b\_non\_orders | brand\_orders | organic\_orders | direct\_type\_orders |
 | ---: | --: | -------------: | -------------: | ------------: | --------------: | -------------------: |
@@ -262,9 +249,6 @@ GROUP BY 1,2;
 | 2014 |   4 |         0.0783 |         0.0843 |        0.0815 |          0.0783 |               0.0748 |
 | 2015 |   1 |         0.0859 |         0.0848 |        0.0849 |          0.0821 |               0.0774 |
 
-13 records
-
-</div>
 
 The previous query was useful to see growth by volume but we also would
 like to see how the order rate for these channels has grown. Volume
@@ -293,7 +277,6 @@ GROUP BY 1,2
 ORDER BY 2,1 ASC;
 ```
 
-<div class="knitsql-table">
 
 | yr\_mo  | product\_name            |  revenue |  margin |
 | :------ | :----------------------- | -------: | ------: |
@@ -334,9 +317,6 @@ ORDER BY 2,1 ASC;
 | 2014/07 | The Forever Love Bear    | 14457.59 |  9037.5 |
 | 2014/08 | The Forever Love Bear    | 14397.60 |  9000.0 |
 
-Displaying records 1 - 36
-
-</div>
 
 Note that the data is organized by the product name and not by date. I
 thought it to be a little cleaner than to try to figure out which
@@ -360,7 +340,6 @@ ON order_items.product_id = products.product_id
 GROUP BY 1;
 ```
 
-<div class="knitsql-table">
 
 | yr\_mo  |  revenue |  margin |
 | :------ | -------: | ------: |
@@ -395,9 +374,6 @@ GROUP BY 1;
 | 2014/07 | 83236.56 | 52538.0 |
 | 2014/08 | 85111.99 | 53835.5 |
 
-Displaying records 1 - 30
-
-</div>
 
 Okay, so we know how revenue and margin increase by product over time.
 How about all together regardless of product? We see the trend we would
@@ -432,7 +408,6 @@ ON orders.website_session_id = website_sessions.website_session_id;
 Here is a preview of what information this view
 gives:
 
-<div class="knitsql-table">
 
 | website\_session\_id | order\_id | DATE(website\_sessions.created\_at) |
 | :------------------- | --------: | :---------------------------------- |
@@ -467,9 +442,6 @@ gives:
 | 29                   |        NA | 2012-03-19                          |
 | 30                   |        NA | 2012-03-19                          |
 
-Displaying records 1 - 30
-
-</div>
 
 Notice multiple NA’s for when someone viewed the site but no order was
 placed. That is exactly what we want to know for our next query.
@@ -505,7 +477,6 @@ HAVING product = 1
 GROUP BY 1;
 ```
 
-<div class="knitsql-table">
 
 | yr\_mo  | product\_sessions | next\_pg | ctr\_nextpg | orders | prod\_to\_order\_CVR |
 | :------ | ----------------: | -------: | ----------: | -----: | -------------------: |
@@ -540,9 +511,6 @@ GROUP BY 1;
 | 2014/07 |             10834 |     8956 |      0.8267 |   1284 |               0.1185 |
 | 2014/08 |             10777 |     8982 |      0.8334 |   1330 |               0.1234 |
 
-Displaying records 1 - 30
-
-</div>
 
 This query shows the number of sessions where a user made it to the
 ‘/products’ page and then the tunnel of click-through rates beginning
@@ -583,7 +551,6 @@ WHERE orders.created_at >= '2014-12-05';
 Here is a preview of what this view
 gives:
 
-<div class="knitsql-table">
 
 | order\_id | primary\_product\_id | product\_id | DATE(orders.created\_at) |
 | :-------- | -------------------: | ----------: | :----------------------- |
@@ -618,9 +585,6 @@ gives:
 | 25072     |                    1 |          NA | 2014-12-05               |
 | 25073     |                    1 |          NA | 2014-12-05               |
 
-Displaying records 1 - 30
-
-</div>
 
 Notice we have information on the other item that was sold as part of
 this order. How can we visualize this a little better to get a grasp on
@@ -644,7 +608,6 @@ GROUP BY 1
 ORDER BY primary_product_id ASC;
 ```
 
-<div class="knitsql-table">
 
 | primary\_product\_id | as\_primary\_product | X\_prod\_1 | X\_prod\_2 | X\_prod\_3 | X\_prod\_4 | X\_prod\_1\_rt | X\_prod\_2\_rt | X\_prod\_3\_rt | X\_prod\_4\_rt |
 | :------------------- | -------------------: | ---------: | ---------: | ---------: | ---------: | -------------: | -------------: | -------------: | -------------: |
@@ -653,9 +616,6 @@ ORDER BY primary_product_id ASC;
 | 3                    |                  930 |         84 |         40 |          0 |        208 |         0.0903 |         0.0430 |         0.0000 |         0.2237 |
 | 4                    |                  581 |         16 |          9 |         22 |          0 |         0.0275 |         0.0155 |         0.0379 |         0.0000 |
 
-4 records
-
-</div>
 
 Here is some really interesting advanced data analytics\! We have
 created cross sell analysis matrices to see how the products perform as
