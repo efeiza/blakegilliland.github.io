@@ -47,7 +47,7 @@ Some of the types of inquiries and requests I recieved involve:
 These are the questions that I was requested to get answers on for the
 midterm project, along with the code I wrote and its output.
 
-## Objective 1: Show Fff Volume Growth
+## Objective 1: Show Off Volume Growth
 
 **Pull overall website session volume and order volume, trended by
 quarter, for the life of the business**
