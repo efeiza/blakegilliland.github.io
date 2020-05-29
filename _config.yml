@@ -12,7 +12,7 @@ locale                   : "en-US"
 title                    : "Blake Gilliland"
 title_separator          : "-"
 name                     : "Blake Gilliland"
-description              : "Data Analyst | Highly Skilled with SQL, R, Tableau, & Excel for Data Analytics | B.S. Mathematics, Statistics"
+description              : "Data Analytics Portfolio"
 url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : "blakegilliland/blakegilliland.github.io"
@@ -87,7 +87,7 @@ analytics:
 author:
   name             : "Blake Gilliland"
   avatar           : "/images/ProAvatar.png" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Data Analytics and Visualization Portfolio"
+  bio              : "Data Analyst | Highly Skilled with SQL, R, Tableau, & Excel for Data Analytics | B.S. Mathematics, Statistics"
   location         : "Greater Chicago Area, IL"
   email            : "bagilliland5328@gmail.com"
   uri              :
