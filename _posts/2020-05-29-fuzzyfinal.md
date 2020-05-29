@@ -103,7 +103,7 @@ GROUP BY 1;
 We see consistent growth in both order and website session volume, a
 positive sign for growth of the business.
 
-### Objective 2: Showcase efficiency improvements
+## Objective 2: Showcase efficiency improvements
 
 **Show quarterly figures for session to order CVR, revenue per order,
 and revenue per session**
@@ -150,7 +150,7 @@ only $1.58 to $5.29 which is a remarkable jump. This indicates that
 individuals are buying more frequently and spending more money when they
 do buy products.
 
-### Objective 3: Show how certain web channels have grown
+## Objective 3: Show how certain web channels have grown
 
 **Pull quarterly view of orders from ‘gsearch nonbrand’, ‘bsearch
 nonbrand’, ‘brand search overall’, ‘organic search’, and ‘direct
@@ -203,7 +203,7 @@ channels, which is what we would like to see since organic orders and
 direct type orders are free
 traffic.
 
-### Objective 4: Show the overall session-to-order conversion rate trends for the same channels (as above) by quarter
+## Objective 4: Show the overall session-to-order conversion rate trends for the same channels (as above) by quarter
 
 ``` sql
 SELECT
@@ -261,7 +261,7 @@ Perhaps that is something to look into since we would expect people who
 are going to the website purposefully to be more than simple
 ‘lookers’.
 
-### Objective 5: Pull monthly trending for revenue and margin by product along with total sales and revenue
+## Objective 5: Pull monthly trending for revenue and margin by product along with total sales and revenue
 
 ``` sql
 SELECT
@@ -384,7 +384,7 @@ long run, even with the peaks and troughs, indicating consistent growth
 over the long
 term.
 
-### Objective 6: Let’s dive deeper into the impact of introducing new products
+## Objective 6: Let’s dive deeper into the impact of introducing new products
 
 **Pull monthly sessions to the /products page and show how the % of
 those sessions clicking through to another page has changed over time
@@ -525,7 +525,7 @@ the time of year people are more and more likely to get further in thr
 order process as time goes
 on.
 
-### Objective 7: Pull sales data since then to show how well each product cross sells from the others
+## Objective 7: Pull sales data since then to show how well each product cross sells from the others
 
 Note: The fourth product was made available as a primary product on
 December 5th, 2014 (it was only available as a cross sell product before
