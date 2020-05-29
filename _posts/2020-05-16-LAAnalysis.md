@@ -6,7 +6,7 @@ excerpt: "Statistical Analysis of Learning Assistants"
 mathjax: "true"
 ---
 
-### Background 
+## Background 
 
 Learning Assistants (LA's) are talented undergraduates who have recently taken a course and remember what it is like to learn the material. They help transform undergraduate courses to include small groups of students articulating, defending, and modifying their ideas about relevant problems or phenomena. Their main role is to support student learning in interactive classroom environments, working with small groups of students as they solve challenging conceptual or mathematical problems.
 
@@ -52,7 +52,7 @@ head(dat)
 
 As you can see by the head of our .csv, we know what subject the section was (columns 1 and 2), what term it was taught in, whether there was an LA or not, which section (CRN) it was (and therefore who taught it), what the DFW (D/F/Withdraw) rate was for that section, how many students were in it, and the DFW count, respectively.
 
-### Paired T-test for DFW Rate, pairing by Section. Looking for an LA Effect.
+## Paired T-test for DFW Rate, pairing by Section. Looking for an LA Effect.
 
 We begin at the top-most and most granular level: comparaing sections without respect to instructor, term, or course. Simply, do LA's lower DFW Rates? We have plenty of data (51 sections with an LA, 239 sections without an LA) so we may proceed with parametric testing. Welch's Two-Sample, left-tailed t-test is appropriate, as determined by R automatically, since the sample sizes are unequal by a significant margin \($$\alpha = .05$$\).
 
@@ -101,7 +101,7 @@ legend(x=.5,y=3,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1) #Format curv
 
 With a p-value >.05 we may conclude that the average DFW Rate for sections with LA's are not significantly lower than those without LA's. This, as mentioned, does not account for multiple confounding variables such as course subject and instructor. So, let's try to do so. 
 
-### Paired T-test for DFW Rate, pairing by Course. Looking for an LA Effect.
+## Paired T-test for DFW Rate, pairing by Course. Looking for an LA Effect.
 
 Let's aggregate our data so that we have DFW info by course and by LA presence. Then we can examine the shape of our data and perform a test of differences to see if LA's have a significantly positive impact on DFW rates.
 
@@ -213,7 +213,7 @@ legend(x=.5,y=3.5,col = c("Black", "Red"),legend=c("No","Yes"),lwd=1)
 
 We get a test statistic of t = 0.938 and a p-value that is much greater than our set \($$\alpha = .05$$\) level. Since our statistic is >0, this indicates that the average DFW rate accross courses actually goes up when LA's are present.
 
-### Wilcoxon Signed-Rank Test for DFW Rate, pairing by Instructor. Looking for an LA Effect.
+## Wilcoxon Signed-Rank Test for DFW Rate, pairing by Instructor. Looking for an LA Effect.
 
 We now will consider a new dataset with similar information. Here we consider DFW Rates by instructor instead of by course as seen previously. We will assign instructors an ID in the "Instructors" column for anonymity.
 
