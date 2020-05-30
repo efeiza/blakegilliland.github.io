@@ -40,7 +40,7 @@ the database using the `RMariaDB` R Package and using SQL chunks.
 
 ## Final Project
 
-**Note: These queries will show only a limited number of rows for the sake of seeing the structure of the output. They are not the full result of the queries in terms of number of rows**
+**Note: These queries will show only a limited number of rows as output**
 
 Some of the types of inquiries and requests I recieved involve:
 
@@ -55,10 +55,7 @@ Some of the types of inquiries and requests I recieved involve:
     Launches, Product-Level Website Pathing, Building Product-Level
     Conversion Funnels, Cross-Sell Analysis, Product Portfolio
     Expansion, Product Refund Rates)
-
-These are the questions that I was requested to get answers on for the
-midterm project, along with the code I wrote and its output.
-
+    
 ## Objective 1: Show Off Volume Growth
 
 **Pull overall website session volume and order volume, trended by
@@ -163,7 +160,7 @@ GROUP BY 1,2;
 Not only are orders and sessions doing well by volume, but we see an
 improvement in efficiency as well. Session-to-order conversion rates are
 on a strong upward trend, going from only 3% of sessions resulting in an
-order up to north of 8% within 2 years. Similarly, average order value
+order up to north of 8% within 3 years. Similarly, average order value
 jumps from $49 to north of $62 per order. Revenue per session goes from
 only $1.58 to $5.29 which is a remarkable jump. This indicates that
 individuals are buying more frequently and spending more money when they
@@ -285,8 +282,7 @@ dominates by volume, all of our channels are on par with one another as
 far as getting customers to actually place an order with only the
 ‘direct type’ order rate being noticeably lower than the others.
 Perhaps that is something to look into since we would expect people who
-are going to the website purposefully to be more than simple
-‘lookers’.
+are going to the website purposefully to be more likely to make a purchase.
 
 ## Objective 5: Pull Monthly Trending for Revenue and Margin by Product Along With Total Sales and Revenue
 
@@ -351,10 +347,11 @@ ORDER BY 2,1 ASC;
 
 Note that the data is organized by the product name and not by date. I
 thought it to be a little cleaner than to try to figure out which
-revenue and margin went with what product just for the sake of putting
-the data in chronological order. Anyways, both of our products are
-seasonal with peaks occurring in the holiday season and dips happing in
-the months that follow. However, for ‘The Forever Love Bear’ we see a
+revenue and margin went with what product. 
+
+Anyways, both of our products are
+seasonal with peaks occurring in the holiday season and dips in
+the months that follow soon after. However, for ‘The Forever Love Bear’ we see a
 spike in February’s due to Valentines day and then back down to the
 normal marks and continued steady growth. Overall, upward trends in
 revenue and margin are observed so this is good news.
@@ -412,12 +409,8 @@ GROUP BY 1;
 
 Okay, so we know how revenue and margin increase by product over time.
 How about all together regardless of product? We see the trend we would
-expect. Highly seasonal patterns, with peaks occurring in the holiday
-time and drop downs immediately after as people work to pay off their
-credit cards for all the purchases. We do see linear growth over the
-long run, even with the peaks and troughs, indicating consistent growth
-over the long
-term.
+expect. Highly seasonal patterns with peaks occurring in the holiday
+time and then dips for the months immediately after the holiday season. We do see linear growth over the long run.
 
 ## Objective 6: Let’s Dive Deeper Into the Impact of Introducing New Products
 
@@ -448,7 +441,7 @@ LEFT JOIN orders
 ON orders.website_session_id = website_sessions.website_session_id;
 ```
 
-Here is a preview of what information this view
+Here is a preview of what this view
 gives:
 
 
@@ -493,8 +486,7 @@ gives:
 Notice multiple NA’s for when someone viewed the site but no order was
 placed. That is exactly what we want to know for our next query.
 
-Next we will create another `VIEW` with the session and order
-information, including the date, as well as binary indicators for
+Next we will create another `VIEW` using the one we just made. This one will have session and order information, including the date, as well as binary indicators for
 whether they made it to the page after the product page (which is the
 specific product’s page) and then to the order confirmation page.
 
@@ -536,6 +528,7 @@ This `VIEW` looks as follows:
 
 
 
+Now we can get the final table that will give us the information we set out for. We will query as follows:
 
 ``` sql
 SELECT
