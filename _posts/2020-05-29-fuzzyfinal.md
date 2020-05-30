@@ -5,6 +5,7 @@ tags: [MySQL, MySQL Workbench, R Studio, R Markdown, RMariaDB]
 excerpt: "Analyzing Channel Portfolio Management, Analyzing Business Patterns and Seasonality, Product Analysis"
 mathjax: true
 ---
+
 ## Background
 
 You may find the first part of this project on the home page.
@@ -28,6 +29,15 @@ The analysis was performed in MySQL Workbench and the reporting as
 follows was done using an R Markdown file in R Studio by connecting to
 the database using the `RMariaDB` R Package and using SQL chunks.
 
+**SQL Concepts Implemented**
+
+  - The Big 6: `SELECT`–\>`FROM`–\>`WHERE`–\>`GROUP
+    BY`–\>`HAVING`–\>`ORDER BY`
+  - Aggregation (`COUNT`, `SUM`, `MAX`, ect.)
+  - `LEFT JOIN`
+  - `VIEW`’s and Subqueries
+  - `CASE` and `COUNT(DISTINCT CASE WHEN...)` (count-case pivoting)
+
 ## Final Project
 
 Some of the types of inquiries and requests I recieved involve:
@@ -47,7 +57,7 @@ Some of the types of inquiries and requests I recieved involve:
 These are the questions that I was requested to get answers on for the
 midterm project, along with the code I wrote and its output.
 
-## Objective 1: Show Off Volume Growth
+## Objective 1: Show off volume growth
 
 **Pull overall website session volume and order volume, trended by
 quarter, for the life of the business**
@@ -64,6 +74,7 @@ LEFT JOIN orders
 ON orders.website_session_id = website_sessions.website_session_id
 GROUP BY 1;
 ```
+
 
 
 | yr\_mo  | orders\_volume | sessions\_volume |
@@ -100,10 +111,13 @@ GROUP BY 1;
 | 2014/08 |           1330 |            18615 |
 
 
+
+
+
 We see consistent growth in both order and website session volume, a
 positive sign for growth of the business.
 
-## Objective 2: Showcase Efficiency Improvements
+## Objective 2: Showcase efficiency improvements
 
 **Show quarterly figures for session to order CVR, revenue per order,
 and revenue per session**
@@ -124,6 +138,7 @@ GROUP BY 1,2;
 ```
 
 
+
 |   yr | qtr |    CVR |      AOV | rev\_per\_session |
 | ---: | --: | -----: | -------: | ----------------: |
 | 2012 |   1 | 0.0317 | 49.99000 |          1.584001 |
@@ -141,6 +156,8 @@ GROUP BY 1,2;
 | 2015 |   1 | 0.0843 | 62.79659 |          5.293629 |
 
 
+
+
 Not only are orders and sessions doing well by volume, but we see an
 improvement in efficiency as well. Session-to-order conversion rates are
 on a strong upward trend, going from only 3% of sessions resulting in an
@@ -150,7 +167,7 @@ only $1.58 to $5.29 which is a remarkable jump. This indicates that
 individuals are buying more frequently and spending more money when they
 do buy products.
 
-## Objective 3: Show How Certain Web Channels Have Grown
+## Objective 3: Show how certain web channels have grown
 
 **Pull quarterly view of orders from ‘gsearch nonbrand’, ‘bsearch
 nonbrand’, ‘brand search overall’, ‘organic search’, and ‘direct
@@ -180,6 +197,7 @@ GROUP BY 1,2;
 ```
 
 
+
 |   yr | qtr | g\_nonbrand\_orders | b\_nonbrand\_orders | brand\_orders | organic\_orders | direct\_type\_orders |
 | ---: | --: | ------------------: | ------------------: | ------------: | --------------: | -------------------: |
 | 2012 |   1 |                  59 |                   0 |             0 |               0 |                    0 |
@@ -197,13 +215,16 @@ GROUP BY 1,2;
 | 2015 |   1 |                3028 |                 581 |           622 |             641 |                  553 |
 
 
+
+
+
 We see the bulk of the website’s orders comes from our ‘gsearch
 nonbrand’ channel. However, there is still growth in our other
 channels, which is what we would like to see since organic orders and
 direct type orders are free
 traffic.
 
-## Objective 4: Show the Overall Session-to-Order Conversion Rate Trends for the Same Channels (As Above) by Quarter
+## Objective 4: Show the overall session-to-order conversion rate trends for the same channels (as above) by quarter
 
 ``` sql
 SELECT
@@ -233,6 +254,7 @@ GROUP BY 1,2;
 ```
 
 
+
 |   yr | qtr | g\_non\_orders | b\_non\_orders | brand\_orders | organic\_orders | direct\_type\_orders |
 | ---: | --: | -------------: | -------------: | ------------: | --------------: | -------------------: |
 | 2012 |   1 |         0.0322 |             NA |        0.0000 |          0.0000 |               0.0000 |
@@ -250,6 +272,9 @@ GROUP BY 1,2;
 | 2015 |   1 |         0.0859 |         0.0848 |        0.0849 |          0.0821 |               0.0774 |
 
 
+
+
+
 The previous query was useful to see growth by volume but we also would
 like to see how the order rate for these channels has grown. Volume
 doesn’t always give us the full picture\! Here we see interesting
@@ -261,7 +286,7 @@ Perhaps that is something to look into since we would expect people who
 are going to the website purposefully to be more than simple
 ‘lookers’.
 
-## Objective 5: Pull Monthly Trending for Revenue and Margin by Product Along with Total Sales and Revenue
+## Objective 5: Pull monthly trending for revenue and margin by product along with total sales and revenue
 
 ``` sql
 SELECT
@@ -276,6 +301,7 @@ ON order_items.product_id = products.product_id
 GROUP BY 1,2
 ORDER BY 2,1 ASC;
 ```
+
 
 
 | yr\_mo  | product\_name            |  revenue |  margin |
@@ -318,6 +344,9 @@ ORDER BY 2,1 ASC;
 | 2014/08 | The Forever Love Bear    | 14397.60 |  9000.0 |
 
 
+
+
+
 Note that the data is organized by the product name and not by date. I
 thought it to be a little cleaner than to try to figure out which
 revenue and margin went with what product just for the sake of putting
@@ -339,6 +368,7 @@ LEFT JOIN products
 ON order_items.product_id = products.product_id
 GROUP BY 1;
 ```
+
 
 
 | yr\_mo  |  revenue |  margin |
@@ -375,6 +405,9 @@ GROUP BY 1;
 | 2014/08 | 85111.99 | 53835.5 |
 
 
+
+
+
 Okay, so we know how revenue and margin increase by product over time.
 How about all together regardless of product? We see the trend we would
 expect. Highly seasonal patterns, with peaks occurring in the holiday
@@ -384,12 +417,20 @@ long run, even with the peaks and troughs, indicating consistent growth
 over the long
 term.
 
-## Objective 6: Let’s Dive Deeper Into the Impact of Introducing New Products
+## Objective 6: Let’s dive deeper into the impact of introducing new products
 
 **Pull monthly sessions to the /products page and show how the % of
 those sessions clicking through to another page has changed over time
 along with a view of how conversion from /products to placing an order
 has changed**
+
+This is a multistep problem. We could embed multiple subqueries but that
+can be difficult to follow and figure out. Instead, lets break it down
+step by step.
+
+First, we need to get the order id for each and every website session
+along with the date. We will create a `VIEW` for this instead of
+subquerying to make life easier for us.
 
 ``` sql
 CREATE VIEW orders_sessions
@@ -407,6 +448,7 @@ ON orders.website_session_id = website_sessions.website_session_id;
 
 Here is a preview of what information this view
 gives:
+
 
 
 | website\_session\_id | order\_id | DATE(website\_sessions.created\_at) |
@@ -443,26 +485,24 @@ gives:
 | 30                   |        NA | 2012-03-19                          |
 
 
+
+
+
 Notice multiple NA’s for when someone viewed the site but no order was
 placed. That is exactly what we want to know for our next query.
 
+Next we will create another `VIEW` with the session and order
+information, including the date, as well as binary indicators for
+whether they made it to the page after the product page (which is the
+specific product’s page) and then to the order confirmation page.
+
 ``` sql
-SELECT
-DATE_FORMAT(created_at, '%Y/%m') AS yr_mo,
-COUNT(product) AS product_sessions,
-COUNT(CASE WHEN next_pg = 1 THEN website_session_id ELSE NULL END) AS next_pg,
-COUNT(CASE WHEN next_pg = 1 THEN website_session_id ELSE NULL END)/COUNT(product) AS ctr_nextpg,
-COUNT(CASE WHEN order_id IS NOT NULL THEN website_session_id ELSE NULL END) AS orders,
-COUNT(CASE WHEN order_id IS NOT NULL THEN website_session_id ELSE NULL END)/COUNT(product) AS prod_to_order_CVR
-
-FROM(
-
+CREATE VIEW prod_order_view
+AS
 SELECT
 orders_sessions.created_at,
 orders_sessions.website_session_id,
-orders_sessions.order_id,
 
-MAX(CASE WHEN website_pageviews.pageview_url = '/products' THEN 1 ELSE 0 END) AS product,
 MAX(CASE WHEN website_pageviews.pageview_url IN ('/the-original-mr-fuzzy','/the-forever-love-bear','/the-birthday-sugar-panda',
 '/the-hudson-river-mini-bear') THEN 1 ELSE 0 END) AS next_pg,
 MAX(CASE WHEN website_pageviews.pageview_url = '/thank-you-for-your-order' THEN 1 ELSE 0 END) AS order_conf
@@ -470,12 +510,44 @@ MAX(CASE WHEN website_pageviews.pageview_url = '/thank-you-for-your-order' THEN 
 FROM orders_sessions
 LEFT JOIN website_pageviews
 ON orders_sessions.website_session_id = website_pageviews.website_session_id
-GROUP BY 1,2,3
-HAVING product = 1
+GROUP BY 1,2
+HAVING MAX(CASE WHEN website_pageviews.pageview_url = '/products' THEN 1 ELSE 0 END) = 1;
+```
 
-) AS prod_orders
+This `VIEW` looks as follows:
+
+
+
+| created\_at         | website\_session\_id | next\_pg | order\_conf |
+| :------------------ | -------------------: | -------: | ----------: |
+| 2012-03-19 10:05:46 |                    6 |        1 |           0 |
+| 2012-03-19 10:57:14 |                   15 |        1 |           0 |
+| 2012-03-19 11:01:35 |                   16 |        0 |           0 |
+| 2012-03-19 11:16:57 |                   18 |        1 |           0 |
+| 2012-03-19 11:22:58 |                   20 |        1 |           1 |
+| 2012-03-19 12:22:58 |                   27 |        0 |           0 |
+| 2012-03-19 12:43:21 |                   30 |        0 |           0 |
+| 2012-03-19 12:58:52 |                   33 |        1 |           0 |
+| 2012-03-19 13:01:28 |                   34 |        1 |           0 |
+| 2012-03-19 13:35:54 |                   39 |        1 |           0 |
+
+
+
+
+
+``` sql
+SELECT
+DATE_FORMAT(created_at, '%Y/%m') AS yr_mo,
+COUNT(website_session_id) AS product_sessions,
+COUNT(CASE WHEN next_pg = 1 THEN website_session_id ELSE NULL END) AS next_pg,
+COUNT(CASE WHEN next_pg = 1 THEN website_session_id ELSE NULL END)/COUNT(website_session_id) AS ctr_nextpg,
+COUNT(CASE WHEN order_conf = 1 THEN website_session_id ELSE NULL END) AS orders,
+COUNT(CASE WHEN order_conf = 1 THEN website_session_id ELSE NULL END)/COUNT(website_session_id) AS prod_to_order_CVR
+
+FROM prod_order_view
 GROUP BY 1;
 ```
+
 
 
 | yr\_mo  | product\_sessions | next\_pg | ctr\_nextpg | orders | prod\_to\_order\_CVR |
@@ -512,6 +584,9 @@ GROUP BY 1;
 | 2014/08 |             10777 |     8982 |      0.8334 |   1330 |               0.1234 |
 
 
+
+
+
 This query shows the number of sessions where a user made it to the
 ‘/products’ page and then the tunnel of click-through rates beginning
 at the ‘/products’ and going to the next page in the order process. The
@@ -525,7 +600,7 @@ the time of year people are more and more likely to get further in thr
 order process as time goes
 on.
 
-## Objective 7: Pull Sales Data Since Then to Show How Well Each Product Cross Sells From the Others
+## Objective 7: Pull sales data since then to show how well each product cross sells from the others
 
 Note: The fourth product was made available as a primary product on
 December 5th, 2014 (it was only available as a cross sell product before
@@ -548,42 +623,45 @@ AND order_items.is_primary_item = 0
 WHERE orders.created_at >= '2014-12-05';
 ```
 
-Here is a preview of what this view
-gives:
+Here is a preview of what this view gives:
 
 
-| order\_id | primary\_product\_id | product\_id | DATE(orders.created\_at) |
-| :-------- | -------------------: | ----------: | :----------------------- |
-| 25044     |                    1 |          NA | 2014-12-05               |
-| 25045     |                    2 |           4 | 2014-12-05               |
-| 25046     |                    1 |          NA | 2014-12-05               |
-| 25047     |                    1 |           4 | 2014-12-05               |
-| 25048     |                    1 |           4 | 2014-12-05               |
-| 25049     |                    1 |          NA | 2014-12-05               |
-| 25050     |                    1 |           2 | 2014-12-05               |
-| 25051     |                    1 |          NA | 2014-12-05               |
-| 25052     |                    1 |           4 | 2014-12-05               |
-| 25053     |                    1 |          NA | 2014-12-05               |
-| 25054     |                    2 |           4 | 2014-12-05               |
-| 25055     |                    1 |           2 | 2014-12-05               |
-| 25056     |                    2 |          NA | 2014-12-05               |
-| 25057     |                    3 |          NA | 2014-12-05               |
-| 25058     |                    1 |           2 | 2014-12-05               |
-| 25059     |                    1 |          NA | 2014-12-05               |
-| 25060     |                    1 |           4 | 2014-12-05               |
-| 25061     |                    1 |           4 | 2014-12-05               |
-| 25062     |                    1 |           2 | 2014-12-05               |
-| 25063     |                    3 |          NA | 2014-12-05               |
-| 25064     |                    1 |           3 | 2014-12-05               |
-| 25065     |                    1 |           3 | 2014-12-05               |
-| 25066     |                    1 |           4 | 2014-12-05               |
-| 25067     |                    1 |           3 | 2014-12-05               |
-| 25068     |                    2 |          NA | 2014-12-05               |
-| 25069     |                    2 |          NA | 2014-12-05               |
-| 25070     |                    1 |          NA | 2014-12-05               |
-| 25071     |                    1 |          NA | 2014-12-05               |
-| 25072     |                    1 |          NA | 2014-12-05               |
-| 25073     |                    1 |          NA | 2014-12-05               |
+
+| order\_id | primary\_product\_id | product\_id | date       |
+| :-------- | -------------------: | ----------: | :--------- |
+| 25044     |                    1 |          NA | 2014-12-05 |
+| 25045     |                    2 |           4 | 2014-12-05 |
+| 25046     |                    1 |          NA | 2014-12-05 |
+| 25047     |                    1 |           4 | 2014-12-05 |
+| 25048     |                    1 |           4 | 2014-12-05 |
+| 25049     |                    1 |          NA | 2014-12-05 |
+| 25050     |                    1 |           2 | 2014-12-05 |
+| 25051     |                    1 |          NA | 2014-12-05 |
+| 25052     |                    1 |           4 | 2014-12-05 |
+| 25053     |                    1 |          NA | 2014-12-05 |
+| 25054     |                    2 |           4 | 2014-12-05 |
+| 25055     |                    1 |           2 | 2014-12-05 |
+| 25056     |                    2 |          NA | 2014-12-05 |
+| 25057     |                    3 |          NA | 2014-12-05 |
+| 25058     |                    1 |           2 | 2014-12-05 |
+| 25059     |                    1 |          NA | 2014-12-05 |
+| 25060     |                    1 |           4 | 2014-12-05 |
+| 25061     |                    1 |           4 | 2014-12-05 |
+| 25062     |                    1 |           2 | 2014-12-05 |
+| 25063     |                    3 |          NA | 2014-12-05 |
+| 25064     |                    1 |           3 | 2014-12-05 |
+| 25065     |                    1 |           3 | 2014-12-05 |
+| 25066     |                    1 |           4 | 2014-12-05 |
+| 25067     |                    1 |           3 | 2014-12-05 |
+| 25068     |                    2 |          NA | 2014-12-05 |
+| 25069     |                    2 |          NA | 2014-12-05 |
+| 25070     |                    1 |          NA | 2014-12-05 |
+| 25071     |                    1 |          NA | 2014-12-05 |
+| 25072     |                    1 |          NA | 2014-12-05 |
+| 25073     |                    1 |          NA | 2014-12-05 |
+
+
+
 
 
 Notice we have information on the other item that was sold as part of
@@ -609,12 +687,15 @@ ORDER BY primary_product_id ASC;
 ```
 
 
+
 | primary\_product\_id | as\_primary\_product | X\_prod\_1 | X\_prod\_2 | X\_prod\_3 | X\_prod\_4 | X\_prod\_1\_rt | X\_prod\_2\_rt | X\_prod\_3\_rt | X\_prod\_4\_rt |
 | :------------------- | -------------------: | ---------: | ---------: | ---------: | ---------: | -------------: | -------------: | -------------: | -------------: |
 | 1                    |                 4479 |          0 |        241 |        553 |        936 |         0.0000 |         0.0538 |         0.1235 |         0.2090 |
 | 2                    |                 1280 |         25 |          0 |         40 |        262 |         0.0195 |         0.0000 |         0.0313 |         0.2047 |
 | 3                    |                  930 |         84 |         40 |          0 |        208 |         0.0903 |         0.0430 |         0.0000 |         0.2237 |
 | 4                    |                  581 |         16 |          9 |         22 |          0 |         0.0275 |         0.0155 |         0.0379 |         0.0000 |
+
+
 
 
 Here is some really interesting advanced data analytics\! We have
