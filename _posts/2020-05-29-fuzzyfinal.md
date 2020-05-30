@@ -40,6 +40,8 @@ the database using the `RMariaDB` R Package and using SQL chunks.
 
 ## Final Project
 
+**Note: These queries will show only a limited number of rows for the sake of seeing the structure of the output. They are not the full result of the queries in terms of number of rows**
+
 Some of the types of inquiries and requests I recieved involve:
 
   - Analyzing Channel Portfolio Management (Analyzing Channel
