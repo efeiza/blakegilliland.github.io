@@ -8,8 +8,6 @@ mathjax: true
 
 ## Background
 
-You may find the first part of this project on the home page.
-
 I completed Maven Analytic’s ‘Advanced SQL + MySQL for Analytics &
 Business Intelligence’ course. During this course there were 2 projects
 we were to complete to get simulated experience with not only the
@@ -55,6 +53,12 @@ Some of the types of inquiries and requests I recieved involve:
     Launches, Product-Level Website Pathing, Building Product-Level
     Conversion Funnels, Cross-Sell Analysis, Product Portfolio
     Expansion, Product Refund Rates)
+    
+As a sneak preview to what the results of this analysis was, I took these queries and created a Tableau Storyline with them!
+
+<iframe src="https://public.tableau.com/views/MavenfuzzyfactoryAnalysisPart2/QuarterlyPerformanceAnalysis?:showVizHome=no&:embed=true" width="100%" height="800"></iframe>
+
+
     
 ## Objective 1: Show Off Volume Growth
 
