@@ -1,7 +1,7 @@
 ---
-title: "SQL: Data Analytics For an Online Retailer Part 2"
+title: "SQL & Tableau: Data Analytics For an Online Retailer Part 2"
 date: "2020-05-29"
-tags: [MySQL, MySQL Workbench, R Studio, R Markdown, RMariaDB]
+tags: [MySQL, MySQL Workbench, R Studio, R Markdown, RMariaDB, Tableau]
 excerpt: "Analyzing Channel Portfolio Management, Analyzing Business Patterns and Seasonality, Product Analysis"
 mathjax: true
 ---
