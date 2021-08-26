@@ -2,7 +2,7 @@
 title: "Non-Linear Regression Modeling with Bootstrapping: mtcars"
 date: "2021-08-07"
 excerpt: "tidymodels for scalable regression analysis"
-mathjax: true
+mathjax: "true"
 ---
 
 ## Background & Info
@@ -67,7 +67,7 @@ ggplot(mtcars, aes(wt,mpg)) +
 ![]({{ site.url }}{{ site.baseurl }}/images/2021-08-07-bootstrap_files/figure-gfm/plotEDA-1.png)<!-- -->
 
 We can see that this data may not have a linear relationship. It seems
-to follow an $f(x) = \frac{k}{x} + b$ pattern. The base R function
+to follow an $$f(x) = \frac{k}{x} + b$$ pattern. The base R function
 for Nonlinear Least Squares can take this relationship between our
 response and explanatory variable and give us estimates for *k* and *b*.
 
