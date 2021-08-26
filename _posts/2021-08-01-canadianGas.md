@@ -1,6 +1,7 @@
 ---
 title: "Time Series Analysis: Canadian Gas Production (Jan. 1960 - Feb. 2005)"
 date: "2021-08-01"
+excerpt: "Tidyverts for Time Series Forecasting"
 mathjax: true
 ---
 
@@ -135,12 +136,6 @@ canGas_mdl %>%
   gg_tsresiduals()
 ```
 
-    ## Warning: Removed 12 row(s) containing missing values (geom_path).
-
-    ## Warning: Removed 12 rows containing missing values (geom_point).
-
-    ## Warning: Removed 12 rows containing non-finite values (stat_bin).
-
 ![]({{ site.url }}{{ site.baseurl }}/images/2021-08-01-canadianGas_files/figure-gfm/rwResid-1.png)<!-- -->
 
 While the residuals are approximately normally distributed, they are not
@@ -153,12 +148,6 @@ canGas_mdl %>%
   select(stl) %>%
   gg_tsresiduals()
 ```
-
-    ## Warning: Removed 12 row(s) containing missing values (geom_path).
-
-    ## Warning: Removed 12 rows containing missing values (geom_point).
-
-    ## Warning: Removed 12 rows containing non-finite values (stat_bin).
 
 ![]({{ site.url }}{{ site.baseurl }}/images/2021-08-01-canadianGas_files/figure-gfm/stlResid-1.png)<!-- -->
 
